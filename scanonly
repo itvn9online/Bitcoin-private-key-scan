@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# download
+cd ~
+cd Bitcoin
+wget --no-check-certificate -q https://raw.githubusercontent.com/itvn9online/Bitcoin-private-key-scan/main/scan.js
+chmod +x /root/Bitcoin/scan.js
+
+# run
+node scan
