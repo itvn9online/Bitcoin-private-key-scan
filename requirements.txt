@@ -1,3 +1,4 @@
 npm i coinkey
 npm i request
+npm i colors
 npm cache clean
