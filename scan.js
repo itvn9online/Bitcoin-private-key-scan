@@ -406,6 +406,9 @@ function test_scan(max_i) {
     }
 }
 
+// số lần scan lỗi -> mỗi lần lỗi thì tăng giãn cách lên chút
+var while_error_scan = 0;
+
 function while_scan(max_i) {
     if (typeof max_i != 'number') {
         max_i = max_while;
@@ -416,11 +419,13 @@ function while_scan(max_i) {
         console.log("\t\t\t\t\t\t\t\t\t" + 'Auto next scan has been STOP!');
 
         // tự động tiếp tục sau 1 khoảng thời gian dài hơn chút
-        console.log('Auto Restart after 60s...');
+        while_error_scan++;
+        var while_re_scan = while_error_scan * 60;
+        console.log('Auto Restart after ' + while_re_scan + 's...');
         clearTimeout(timeout_scan);
         timeout_scan = setTimeout(function () {
             while_scan();
-        }, 60 * 1000);
+        }, while_re_scan * 1000);
 
         return false;
     }
