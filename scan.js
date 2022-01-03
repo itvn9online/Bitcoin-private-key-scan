@@ -24,6 +24,7 @@ if (debug_code === true) {
     console.log('You are in debug mode!');
 }
 
+
 /*
 * text color:
 Reset = "\x1b[0m"
@@ -99,6 +100,7 @@ request.get({
 
 //
 var total_scan = 0;
+var total_while = 0;
 
 
 // tạo các thư mục lưu trữ nếu chưa có
@@ -349,7 +351,11 @@ function MY_scan(max_i) {
 
                 //
                 MY_time();
+
+                //
+                total_while++;
                 console.log('Total scan: ' + total_scan);
+                console.log('Total while: ' + total_while);
                 console.log('While: ' + max_i);
 
                 // lưu log để thi thoảng còn check
