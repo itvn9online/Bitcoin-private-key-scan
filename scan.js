@@ -209,8 +209,36 @@ function MY_time() {
 //
 var auto_next_scan = true;
 var timeout_scan = null;
+// chuỗi để tránh xung đột, tránh spam việc scan đễ bị khóa IP
+var ramdom_content_last_scan = Math.random().toString(32);
+console.log('Ramdom content last scan: ' + ramdom_content_last_scan);
 
 function MY_scan(max_i) {
+    // tạo file để tránh xung đột -> trên 1 máy tính chỉ được chạy 1 lần scan này thôi
+    var date_now = Math.ceil(Date.now() / 1000);
+    var date_path = dir_log + '/conflict.txt.txt';
+    if (fs.existsSync(date_path)) {
+        var date_old = fs.readFileSync(date_path).toString();
+        date_old = JSON.parse(date_old);
+        //console.log(date_old);
+
+        // nếu thời gian scan trước đó mà trong phạm vi 60s trở lại
+        if (date_now - date_old.lastModified < 60) {
+            // kiểm tra xem có trùng randomString không
+            if (date_old.randomString != ramdom_content_last_scan) {
+                console.log('Auto scan STOP by spamer!');
+                console.log('Before scan: ' + (date_now - date_old.lastModified));
+                console.log('Random string: ' + ramdom_content_last_scan + ' != ' + date_old.randomString);
+                return false;
+            }
+        }
+    }
+    MY_writeFile(date_path, JSON.stringify({
+        'lastModified': date_now,
+        'randomString': ramdom_content_last_scan,
+    }));
+
+    //
     auto_next_scan = false;
 
     //
