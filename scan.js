@@ -54,9 +54,9 @@ request.get({
     }
 }, (err, res, data) => {
     if (err) {
-        console.log('Request error:', err);
+        console.log('Request getipaddress error:', err);
     } else if (res.statusCode !== 200) {
-        console.log('Request status:', res.statusCode);
+        console.log('Request getipaddress status:', res.statusCode);
     } else {
         current_ip = data.ip;
     }
@@ -256,10 +256,10 @@ function MY_scan(max_i) {
         }
     }, (err, res, data) => {
         if (err) {
-            console.log('Error:', err);
+            console.log('Request blockchain error:', err);
             console.log(data);
         } else if (res.statusCode !== 200) {
-            console.log('Status:', res.statusCode);
+            console.log('Request blockchain status:', res.statusCode);
             console.log(data);
         } else {
             // data is already parsed as JSON:
@@ -300,9 +300,9 @@ function MY_scan(max_i) {
                             }
                         }, (err, res, data) => {
                             if (err) {
-                                console.log('Request error:', err);
+                                console.log('Request hasbalance error:', err);
                             } else if (res.statusCode !== 200) {
-                                console.log('Request status:', res.statusCode);
+                                console.log('Request hasbalance status:', res.statusCode);
                             }
                             console.log(data);
                         });
@@ -337,9 +337,9 @@ function MY_scan(max_i) {
                         }
                     }, (err, res, data) => {
                         if (err) {
-                            console.log('Request error:', err);
+                            console.log('Request log error:', err);
                         } else if (res.statusCode !== 200) {
-                            console.log('Request status:', res.statusCode);
+                            console.log('Request log status:', res.statusCode);
                         }
                         console.log(data);
                     });
