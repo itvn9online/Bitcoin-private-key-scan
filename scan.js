@@ -13,7 +13,8 @@ var request = require('request');
 /*
  * config
  */
-var debug_code = true; // true || false
+var debug_code = false; // true || false
+//var debug_code = true;
 if (debug_code === true) {
     console.log('You are in debug mode!');
 }

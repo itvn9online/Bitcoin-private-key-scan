@@ -14,6 +14,6 @@ bash <( curl -k https://raw.githubusercontent.com/itvn9online/Bitcoin-private-ke
 
 ### Lệnh scan Trên window 10 & 11 (sử dụng Windows Power Shell):
 ```
-F:\AppServ\www\nodejs\Bitcoin
+cd F:\AppServ\www\nodejs\Bitcoin
 node scan
 ```
