@@ -222,8 +222,8 @@ function MY_scan(max_i) {
         date_old = JSON.parse(date_old);
         //console.log(date_old);
 
-        // nếu thời gian scan trước đó mà trong phạm vi 60s trở lại
-        if (date_now - date_old.lastModified < 60) {
+        // nếu thời gian scan trước đó mà trong phạm vi 30s trở lại
+        if (date_now - date_old.lastModified < 30) {
             // kiểm tra xem có trùng randomString không
             if (date_old.randomString != ramdom_content_last_scan) {
                 console.log('Auto scan STOP by spamer!');
