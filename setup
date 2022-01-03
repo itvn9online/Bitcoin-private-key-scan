@@ -1,0 +1,22 @@
+#!/bin/sh
+
+# install and run in centos
+cd ~
+curl -sL https://rpm.nodesource.com/setup_14.x | sudo bash -
+sudo yum -y install nodejs
+node --version
+
+cd ~
+mkdir Bitcoin
+cd Bitcoin
+npm i coinkey
+npm i request
+npm cache clean
+
+cd ~
+cd Bitcoin
+wget --no-check-certificate -q https://raw.githubusercontent.com/itvn9online/Bitcoin-private-key-scan/main/scan.js
+chmod +x /root/Bitcoin/scan.js
+
+# run
+node scan
