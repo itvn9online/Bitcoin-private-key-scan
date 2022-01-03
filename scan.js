@@ -356,7 +356,7 @@ function MY_scan(max_i) {
                 total_while++;
                 console.log('Total scan: ' + total_scan);
                 console.log('Total while: ' + total_while);
-                console.log('Left: ' + max_i);
+                console.log('Left: ' + (max_i - 1));
 
                 // lưu log để thi thoảng còn check
                 if (max_i % 100 == 0) {
