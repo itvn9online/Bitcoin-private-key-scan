@@ -380,6 +380,14 @@ function while_scan(max_i) {
         return false;
     } else if (auto_next_scan !== true) {
         console.log('Auto next scan has been STOP!');
+
+        // tự động tiếp tục sau 1 khoảng thời gian dài hơn chút
+        console.log('Auto Restart after 60s...');
+        clearTimeout(timeout_scan);
+        timeout_scan = setTimeout(function () {
+            while_scan();
+        }, 60 * 1000);
+
         return false;
     }
 
