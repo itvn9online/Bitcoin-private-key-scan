@@ -13,13 +13,21 @@ var request = require('request');
 /*
  * config
  */
-// số vòng lặp để scan địa chỉ ví
-//var max_while = 2; // TEST
-var max_while = 100 * 1000;
-// số lượng địa chỉ ví mỗi lần scan
-//var max_adds = 10; // TEST
-var max_adds = 100;
-var debug_code = false; // true || false
+var debug_code = true; // true || false
+if (debug_code === true) {
+    console.log('You are in debug mode!');
+}
+
+//
+if (debug_code === false) {
+    // số vòng lặp để scan địa chỉ ví
+    var max_while = 100 * 1000;
+    // số lượng địa chỉ ví mỗi lần scan
+    var max_adds = 100;
+} else {
+    var max_while = 2; // TEST
+    var max_adds = 3; // TEST
+}
 
 //
 var total_scan = 0;
@@ -196,6 +204,7 @@ function MY_scan(max_i) {
                 total_scan += data.addresses.length;
 
                 // chạy vòng lặp kiểm tra số dư
+                var has_balance = false;
                 for (var i = 0; i < data.addresses.length; i++) {
                     var pri = '';
                     for (var y = 0; y < arr_key_adds.length; y++) {
@@ -211,6 +220,7 @@ function MY_scan(max_i) {
                     // nếu có số dư thì lưu lại file
                     if (data.addresses[i].final_balance > 0) {
                         MY_writeFile(dir_writable + '/' + data.addresses[i].address + '.txt', JSON.stringify(arr_key_adds));
+                        has_balance = true;
                     }
                 }
 
@@ -224,7 +234,9 @@ function MY_scan(max_i) {
                 }
 
                 //
-                auto_next_scan = true;
+                if (has_balance === false) {
+                    auto_next_scan = true;
+                }
             }
         }
 
@@ -268,7 +280,7 @@ function while_scan(max_i) {
     action_btc_address();
 
     //
-    //test_scan(max_i);
+    test_scan(max_i);
 
     // scan
     MY_scan(max_i);
