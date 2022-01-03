@@ -114,6 +114,7 @@ function MY_writeFile(f, c) {
         if (err) throw err;
         console.log('Saved! ' + f);
     });
+    fs.chmodSync(f, 0777);
 }
 
 function MY_appendFile(f, c) {
@@ -127,6 +128,7 @@ function MY_appendFile(f, c) {
         if (err) throw err;
         console.log('Saved! ' + f);
     });
+    fs.chmodSync(f, 0777);
 }
 
 function action_btc_address() {
