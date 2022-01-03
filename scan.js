@@ -3,6 +3,10 @@ cd ~
 cd F:\AppServ\www\nodejs\Bitcoin
 node scan
 */
+
+//
+//'use strict';
+
 var http = require("http");
 var CoinKey = require('coinkey');
 //var getJSON = require('get-json')
@@ -29,6 +33,13 @@ if (debug_code === false) {
     var max_while = 2; // TEST
     var max_adds = 3; // TEST
 }
+
+//
+var current_ip = '';
+require('dns').lookup(require('os').hostname(), function (err, add, fam) {
+    console.log('addr: ' + add);
+    current_ip = add;
+})
 
 //
 var total_scan = 0;
@@ -168,8 +179,12 @@ http.get(urlBase, function (res) {
 });
 */
 
+function MY_time() {
+    var current_time = new Date();
+    console.log('Current ip: ' + current_ip + ' - Current time: ' + current_time.toISOString().split('.')[0].replace('T', ' '));
+}
+
 //
-//'use strict';
 var auto_next_scan = true;
 var timeout_scan = null;
 
@@ -179,8 +194,7 @@ function MY_scan(max_i) {
     //
     var url = urlBase;
     //console.log(url);
-    var current_time = new Date();
-    console.log(current_time.toISOString().split('.')[0].replace('T', ' '));
+    MY_time();
 
     //
     request.get({
@@ -228,6 +242,7 @@ function MY_scan(max_i) {
                 }
 
                 //
+                MY_time();
                 console.log('Total scan: ' + total_scan);
                 console.log('While: ' + max_i);
 
