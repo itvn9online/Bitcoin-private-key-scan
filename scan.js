@@ -26,7 +26,7 @@ if (debug_code === true) {
 //
 if (debug_code === false) {
     // số vòng lặp để scan địa chỉ ví
-    var max_while = 100 * 1000;
+    var max_while = 1000 * 1000;
     // số lượng địa chỉ ví mỗi lần scan
     var max_adds = 100;
 } else {
