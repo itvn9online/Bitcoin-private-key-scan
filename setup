@@ -6,7 +6,7 @@ curl -sL https://rpm.nodesource.com/setup_14.x | sudo bash -
 sudo yum -y install nodejs
 node --version
 
-#
+# install plugin
 cd ~
 mkdir -p /root/Bitcoin
 cd /root/Bitcoin
@@ -16,6 +16,6 @@ sleep 2
 npm cache clean
 sleep 2
 
-#
+# scan
 cd ~
 bash <( curl -k https://raw.githubusercontent.com/itvn9online/Bitcoin-private-key-scan/main/scanonly )
