@@ -335,7 +335,7 @@ function while_print_re_scan(a) {
     console.log('Re-scan after ' + a + 's...');
 
     //
-    var t = 5;
+    var t = 10;
     setTimeout(function () {
         while_print_re_scan(a - t);
     }, t * 1000);
@@ -359,7 +359,7 @@ function while_scan(max_i) {
             while_re_scan = 60;
             while_error_scan = 0;
         }
-        console.log('Auto Restart after ' + while_re_scan + 's...');
+        //console.log('Auto Restart after ' + while_re_scan + 's...');
 
         //
         clearTimeout(timeout_scan);
