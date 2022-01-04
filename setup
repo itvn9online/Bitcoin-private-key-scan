@@ -12,7 +12,9 @@ mkdir Bitcoin
 cd Bitcoin
 npm i coinkey
 npm i request
+sleep 2
 npm cache clean
+sleep 2
 
 #
 cd ~
