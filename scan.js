@@ -328,6 +328,19 @@ function test_scan(max_i) {
 // số lần scan lỗi -> mỗi lần lỗi thì tăng giãn cách lên chút
 var while_error_scan = 0;
 
+function while_print_re_scan(a) {
+    if (a < 0) {
+        return false;
+    }
+    console.log('Re-scan after ' + a + 's...');
+
+    //
+    var t = 5;
+    setTimeout(function () {
+        while_print_re_scan(a - t);
+    }, t * 1000);
+}
+
 function while_scan(max_i) {
     if (typeof max_i != 'number') {
         max_i = max_while;
@@ -347,11 +360,17 @@ function while_scan(max_i) {
             while_error_scan = 0;
         }
         console.log('Auto Restart after ' + while_re_scan + 's...');
+
+        //
         clearTimeout(timeout_scan);
         timeout_scan = setTimeout(function () {
             while_scan();
         }, while_re_scan * 1000);
 
+        //
+        while_print_re_scan(while_re_scan);
+
+        //
         return false;
     }
 
