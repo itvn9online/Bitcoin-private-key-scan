@@ -8,8 +8,8 @@ node --version
 
 #
 cd ~
-mkdir Bitcoin
-cd Bitcoin
+mkdir -p /root/Bitcoin
+cd /root/Bitcoin
 npm i coinkey
 npm i request
 sleep 2
