@@ -3,7 +3,7 @@
 # function
 download_file_code () {
 cd ~
-wget --no-check-certificate -q "https://raw.githubusercontent.com/itvn9online/Bitcoin-private-key-scan/main/"$1 -O "/root/Bitcoin"$1
+wget --no-check-certificate -q "https://raw.githubusercontent.com/itvn9online/Bitcoin-private-key-scan/main/"$1 -O "/root/Bitcoin/"$1
 }
 
 # cleanup
