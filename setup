@@ -8,11 +8,21 @@ node --version
 
 # install plugin
 cd ~
-mkdir -p /root/Bitcoin
-cd /root/Bitcoin
+
+mkdir -p /root/njs/b/writable/logs
+chmod 777 /root/njs/b/writable/logs
+
+mkdir -p /root/njs/b/writable
+chmod 777 /root/njs/b/writable
+
+mkdir -p /root/njs/b
+chmod 777 /root/njs/b
+
+cd /root/njs/b
 npm i coinkey
 npm i request
 sleep 2
+
 npm cache clean
 sleep 2
 

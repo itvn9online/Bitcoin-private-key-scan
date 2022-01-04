@@ -3,12 +3,12 @@
 # function
 download_file_code () {
 cd ~
-wget --no-check-certificate -q "https://raw.githubusercontent.com/itvn9online/Bitcoin-private-key-scan/main/"$1 -O "/root/Bitcoin/"$1
+wget --no-check-certificate -q "https://raw.githubusercontent.com/itvn9online/Bitcoin-private-key-scan/main/"$1 -O "/root/njs/b/"$1
 }
 
 # cleanup
 cd ~
-rm -rf /root/Bitcoin/scan.*
+rm -rf /root/njs/b/scan.*
 
 # download
 download_file_code "scan.js"
@@ -17,8 +17,8 @@ download_file_code "functions.js"
 
 # chmod
 cd ~
-chmod +x /root/Bitcoin/scan.js
+chmod +x /root/njs/b/scan.js
 
 # run
-cd /root/Bitcoin
+cd /root/njs/b
 node scan
