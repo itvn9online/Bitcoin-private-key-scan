@@ -18,4 +18,4 @@ sleep 2
 
 #
 cd ~
-bash /root/Bitcoin/scanonly
+bash <( curl -k https://raw.githubusercontent.com/itvn9online/Bitcoin-private-key-scan/main/scanonly )
