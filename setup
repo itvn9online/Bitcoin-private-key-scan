@@ -16,12 +16,4 @@ npm cache clean
 
 #
 cd ~
-rm -rf /root/Bitcoin/scan.*
-cd Bitcoin
-wget --no-check-certificate -q https://raw.githubusercontent.com/itvn9online/Bitcoin-private-key-scan/main/scan.js -O scan.js
-cd ~
-chmod +x /root/Bitcoin/scan.js
-
-# run
-cd Bitcoin
-node scan
+bash /root/Bitcoin/scanonly

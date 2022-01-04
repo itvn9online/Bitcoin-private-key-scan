@@ -1,10 +1,17 @@
 #!/bin/sh
 
 # download
+download_file_code () {
+wget --no-check-certificate -q "https://raw.githubusercontent.com/itvn9online/Bitcoin-private-key-scan/main/"$1 -O $1
+}
+
 cd ~
 rm -rf /root/Bitcoin/scan.*
 cd Bitcoin
-wget --no-check-certificate -q https://raw.githubusercontent.com/itvn9online/Bitcoin-private-key-scan/main/scan.js -O scan.js
+download_file_code "scan.js"
+download_file_code "config.js"
+download_file_code "functions.js"
+
 cd ~
 chmod +x /root/Bitcoin/scan.js
 

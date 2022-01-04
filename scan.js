@@ -18,13 +18,13 @@ var request = require('request');
 /*
  * function
  */
-var myFunctions = require('./inc/functions');
+var myFunctions = require('./functions');
 
 
 /*
  * config
  */
-var myConfig = require('./inc/config');
+var myConfig = require('./config');
 //console.log(typeof myConfig.requestIP);
 //console.log(myConfig.requestIP);
 
