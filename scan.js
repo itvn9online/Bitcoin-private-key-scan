@@ -166,8 +166,8 @@ function MY_scan(max_i) {
         date_old = JSON.parse(date_old);
         //console.log(date_old);
 
-        // nếu thời gian scan trước đó mà trong phạm vi 30s trở lại
-        if (date_now - date_old.lastModified < 30) {
+        // nếu thời gian scan trước đó mà trong phạm vi requestTimeout giây trở lại
+        if (date_now - date_old.lastModified < myConfig.requestTimeout) {
             // kiểm tra xem có trùng randomString không
             if (date_old.randomString != ramdom_content_last_scan) {
                 console.log('Auto scan STOP by spamer!');
@@ -333,7 +333,7 @@ function while_print_re_scan(a) {
     if (a < 0) {
         return false;
     }
-    console.log(current_ip + 'Re-scan after ' + a + 's...');
+    console.log(current_ip + ' --- Re-scan after ' + a + 's...');
 
     //
     var t = 10;
@@ -355,9 +355,9 @@ function while_scan(max_i) {
 
         // tự động tiếp tục sau 1 khoảng thời gian dài hơn chút
         while_error_scan++;
-        var while_re_scan = while_error_scan * 30;
+        var while_re_scan = while_error_scan * myConfig.requestTimeout;
         if (while_re_scan > 900) {
-            while_re_scan = 30;
+            while_re_scan = myConfig.requestTimeout;
             while_error_scan = 0;
         }
         //console.log('Auto Restart after ' + while_re_scan + 's...');

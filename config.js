@@ -24,13 +24,13 @@ module.exports = {
     // số vòng lặp để scan địa chỉ ví
     maxWhile: 1000 * 1000,
     // số lượng địa chỉ ví mỗi lần scan -> tùy vào maximum của mỗi API mà điều chỉnh cho hợp lý
-    maxAdds: 100,
+    maxAdds: 150,
 
     // giãn cách giữa mỗi lần scan (tính theo giây)
-    spaceScan: 5,
+    spaceScan: 5.5,
 
     // thiết lập thời gian tối đa cho mỗi request -> quá lâu thường là request lỗi
-    requestTimeout: 30,
+    requestTimeout: 33,
 
     //
     //userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36',
