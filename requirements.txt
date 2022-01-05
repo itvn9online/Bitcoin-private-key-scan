@@ -1,4 +1,6 @@
 npm i coinkey
 npm i request
+npm i ethers
+npm i crypto
 #npm i colors
 #npm cache clean

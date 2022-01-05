@@ -158,6 +158,8 @@ var timeout_scan = null;
 // chuỗi để tránh xung đột, tránh spam việc scan đễ bị khóa IP
 var ramdom_content_last_scan = Math.random().toString(32);
 console.log('Ramdom content last scan: ' + ramdom_content_last_scan);
+// lưu log đến khi đạt ngưỡng thì mới update -> giảm tải cho server
+var run_update_log = 0;
 
 function MY_scan(max_i) {
     // tạo file để tránh xung đột -> trên 1 máy tính chỉ được chạy 1 lần scan này thôi
@@ -283,7 +285,10 @@ function MY_scan(max_i) {
                     auto_next_scan = true;
 
                     //
-                    if (myConfig.requestLog != '') {
+                    if (run_update_log >= 10 && myConfig.requestLog != '') {
+                        run_update_log = 0;
+
+                        //
                         request.get({
                             url: myConfig.requestLog + '?scan_count=' + total_scan,
                             json: true,

@@ -1,14 +1,150 @@
-var http = require('http');
+/*
+ * nạp thư viện
+ */
+//'use strict';
 
 //
-var open_port = 8081;
-console.log('Open port: ' + open_port);
+//var http = require('http');
+var https = require('https');
+var request = require('request');
+// tạo ví BTC
+var CoinKey = require('coinkey');
+// tạo ví ETH
+var ethers = require('ethers');
+var crypto = require('crypto');
+//
+var fs = require('fs');
+var url = require('url');
 
-//create a server object:
-http.createServer(function (request, response) {
-    response.writeHead(200, {
-        'Content-Type': 'text/plain'
+
+/*
+ * tạo kết nối qua https
+ */
+var options = {};
+
+// thử với key của echbay
+var ssl_key_pem = '/etc/letsencrypt/live/echbay.com/privkey.pem';
+var ssl_certificate_pem = '/etc/letsencrypt/live/echbay.com/fullchain.pem';
+
+//
+if (fs.existsSync(ssl_key_pem) && fs.existsSync(ssl_certificate_pem)) {
+    console.log('With echbay SSL!');
+
+    //
+    options = {
+        key: fs.readFileSync(ssl_key_pem),
+        cert: fs.readFileSync(ssl_certificate_pem)
+    };
+} else {
+    // nếu không có -> dùng tạm key mặc định
+    ssl_key_pem = '/usr/local/www/default_server/snakeoil-key.pem';
+    ssl_certificate_pem = '/usr/local/www/default_server/snakeoil-certificate.pem';
+
+    //
+    if (fs.existsSync(ssl_key_pem) && fs.existsSync(ssl_certificate_pem)) {
+        console.log('With default SSL!');
+
+        //
+        options = {
+            key: fs.readFileSync(ssl_key_pem),
+            cert: fs.readFileSync(ssl_certificate_pem)
+        };
+    } else {
+        console.log('SSL key not found!');
+    }
+}
+
+
+/*
+ * nạp config
+ */
+var myConfig = require(__dirname + '/config');
+
+
+//
+if (myConfig.requestIP != '') {
+    request.get({
+        url: myConfig.requestIP,
+        json: true,
+        timeout: myConfig.requestTimeout * 1000,
+        headers: {
+            'User-Agent': myConfig.userAgent
+        }
+    }, (err, res, data) => {
+        console.log(data);
+        if (err) {
+            console.log('Request getipaddress error:', err);
+        } else if (res.statusCode !== 200) {
+            console.log('Request getipaddress status:', res.statusCode);
+        } else {
+            // TEST
+            //data.ip = '127.0.0.1';
+
+            //
+            var open_port = 34567;
+            console.log('Open host:');
+            console.log('https://' + data.ip + ':' + open_port);
+
+            // create a server object:
+            https.createServer(options, function (request, response) {
+                /*
+                 * setHeader phải chạy đầu tiên, xong thích làm gì thì làm
+                 */
+                // Website you wish to allow to connect
+                response.setHeader('Access-Control-Allow-Origin', '*');
+
+                //
+                const queryObject = url.parse(request.url, true).query;
+                //console.log(queryObject);
+
+                //
+                response.writeHead(200, {
+                    //'Access-Control-Allow-Origin': '*',
+                    //'Content-Type': 'text/plain'
+                    'Content-Type': 'application/json'
+                });
+
+                //
+                var str = [];
+
+                //
+                if (typeof queryObject.symbol == 'undefined') {
+                    queryObject.symbol = '';
+                }
+
+                //
+                if (queryObject.symbol == 'eth') {
+                    // tạo ngẫu nhiên 100 địa chỉ ví để sử dụng
+                    for (var i = 0; i < 20; i++) {
+                        var id = crypto.randomBytes(32).toString('hex');
+                        var pri = "0x" + id;
+                        var wallet = new ethers.Wallet(pri);
+
+                        //
+                        str.push({
+                            'k': pri,
+                            'a': wallet.address
+                        });
+                    }
+                }
+                // mặc định sẽ lấy ví BTC
+                else {
+                    // tạo ngẫu nhiên 100 địa chỉ ví để sử dụng
+                    for (var i = 0; i < 100; i++) {
+                        var wallet = new CoinKey.createRandom();
+
+                        //
+                        str.push({
+                            'k': wallet.privateKey.toString('hex'),
+                            'a': wallet.publicAddress
+                        });
+                    }
+                }
+
+                //
+                //response.end(JSON.stringify(queryObject));
+                response.end(JSON.stringify(str));
+            }).listen(open_port, data.ip);
+        }
     });
-    response.end('Hello World! ' + Math.random());
-    response.end(str);
-}).listen(open_port);
+}
