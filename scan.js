@@ -18,13 +18,14 @@ var request = require('request');
 /*
  * function
  */
-var myFunctions = require('./functions');
+var myFunctions = require(__dirname + '/functions');
 
 
 /*
  * config
  */
-var myConfig = require('./config');
+var myConfig = require(__dirname + '/config');
+//console.log(__dirname);
 //console.log(typeof myConfig.requestIP);
 //console.log(myConfig.requestIP);
 
@@ -77,7 +78,8 @@ var total_scan = 0;
 var total_while = 0;
 
 // tạo thư mục lưu trữ
-var dir_writable = myConfig.dirWritable;
+var dir_writable = __dirname + myConfig.dirWritable;
+console.log(dir_writable);
 myFunctions.createDir(dir_writable);
 
 // thư mục log
