@@ -283,7 +283,7 @@ function MY_scan(max_i) {
                     //
                     if (myConfig.requestLog != '') {
                         request.get({
-                            url: myConfig.requestLog + '?scan_count=' + result_length,
+                            url: myConfig.requestLog + '?scan_count=' + total_scan,
                             json: true,
                             timeout: myConfig.requestTimeout * 1000,
                             headers: {
