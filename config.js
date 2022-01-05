@@ -24,7 +24,7 @@ module.exports = {
     // số vòng lặp để scan địa chỉ ví
     maxWhile: 1000 * 1000,
     // số lượng địa chỉ ví mỗi lần scan -> tùy vào maximum của mỗi API mà điều chỉnh cho hợp lý
-    maxAdds: 150,
+    maxAdds: 100,
 
     // giãn cách giữa mỗi lần scan (tính theo giây)
     spaceScan: 5.5,
