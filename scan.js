@@ -332,7 +332,7 @@ function while_print_re_scan(a) {
     if (a < 0) {
         return false;
     }
-    console.log('Re-scan after ' + a + 's...');
+    console.log(current_ip + 'Re-scan after ' + a + 's...');
 
     //
     var t = 10;
