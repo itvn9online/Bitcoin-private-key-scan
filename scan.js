@@ -142,7 +142,7 @@ function action_btc_address() {
     random_btc_address();
 
     //
-    urlBase = myConfig.blockchainInfo + arr_adds.join('|');
+    urlBase = myConfig.addressAPI + arr_adds.join(myConfig.addressComma);
 }
 
 function MY_time() {
@@ -160,7 +160,7 @@ console.log('Ramdom content last scan: ' + ramdom_content_last_scan);
 function MY_scan(max_i) {
     // tạo file để tránh xung đột -> trên 1 máy tính chỉ được chạy 1 lần scan này thôi
     var date_now = Math.ceil(Date.now() / 1000);
-    var date_path = dir_log + '/conflict.txt.txt';
+    var date_path = dir_log + '/conflict.txt';
     if (fs.existsSync(date_path)) {
         var date_old = fs.readFileSync(date_path).toString();
         date_old = JSON.parse(date_old);
@@ -320,7 +320,7 @@ function test_scan(max_i) {
             'key': 'no-private-key',
             'add': myConfig.testWallet,
         });
-        urlBase += '|' + myConfig.testWallet;
+        urlBase += myConfig.addressComma + myConfig.testWallet;
         //console.log(arr_adds);
     }
 }

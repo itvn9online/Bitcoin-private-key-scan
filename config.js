@@ -23,7 +23,7 @@ module.exports = {
 
     // số vòng lặp để scan địa chỉ ví
     maxWhile: 1000 * 1000,
-    // số lượng địa chỉ ví mỗi lần scan
+    // số lượng địa chỉ ví mỗi lần scan -> tùy vào maximum của mỗi API mà điều chỉnh cho hợp lý
     maxAdds: 100,
 
     // giãn cách giữa mỗi lần scan (tính theo giây)
@@ -37,7 +37,9 @@ module.exports = {
     userAgent: 'request',
 
     // URL dùng để check số dư ví -> KHÔNG ĐƯỢC TỰ Ý THAY ĐỔI
-    blockchainInfo: 'https://blockchain.info/multiaddr?limit=0&cors=true&active=',
+    addressAPI: 'https://blockchain.info/multiaddr?limit=0&cors=true&active=',
+    // dấu ngăn cách giữa các địa chỉ ví
+    addressComma: '|',
 
     // lười viết dấu , ở cuối nên làm cái author cho nó tiện
     author: 'daidq'
