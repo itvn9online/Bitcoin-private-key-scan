@@ -354,9 +354,9 @@ function while_scan(max_i) {
 
         // tự động tiếp tục sau 1 khoảng thời gian dài hơn chút
         while_error_scan++;
-        var while_re_scan = while_error_scan * 60;
+        var while_re_scan = while_error_scan * 30;
         if (while_re_scan > 900) {
-            while_re_scan = 60;
+            while_re_scan = 30;
             while_error_scan = 0;
         }
         //console.log('Auto Restart after ' + while_re_scan + 's...');
