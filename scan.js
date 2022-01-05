@@ -7,7 +7,7 @@ node scan
 //
 //'use strict';
 
-var http = require("http");
+//var http = require("http");
 var CoinKey = require('coinkey');
 //var getJSON = require('get-json')
 var fs = require('fs');
