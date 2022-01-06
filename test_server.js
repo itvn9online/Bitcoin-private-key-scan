@@ -14,7 +14,7 @@ var ethers = require('ethers');
 var crypto = require('crypto');
 //
 var fs = require('fs');
-var url = require('url');
+//var url = require('url');
 
 
 /*
@@ -94,7 +94,7 @@ if (myConfig.requestIP != '') {
                 response.setHeader('Access-Control-Allow-Origin', '*');
 
                 //
-                const queryObject = url.parse(request.url, true).query;
+                //const queryObject = url.parse(request.url, true).query;
                 //console.log(queryObject);
 
                 //
@@ -105,45 +105,45 @@ if (myConfig.requestIP != '') {
                 });
 
                 //
-                var str = [];
+                var result = {
+                    'btc': [],
+                    'eth': []
+                };
 
                 //
+                /*
                 if (typeof queryObject.symbol == 'undefined') {
                     queryObject.symbol = '';
                 }
+                */
 
-                //
-                if (queryObject.symbol == 'eth') {
-                    // tạo ngẫu nhiên 100 địa chỉ ví để sử dụng
-                    for (var i = 0; i < 20; i++) {
-                        var id = crypto.randomBytes(32).toString('hex');
-                        var pri = "0x" + id;
-                        var wallet = new ethers.Wallet(pri);
+                // tạo ngẫu nhiên ví ETH
+                for (var i = 0; i < 20; i++) {
+                    var id = crypto.randomBytes(32).toString('hex');
+                    var pri = "0x" + id;
+                    var wallet = new ethers.Wallet(pri);
 
-                        //
-                        str.push({
-                            'k': pri,
-                            'a': wallet.address
-                        });
-                    }
+                    //
+                    result.eth.push({
+                        'k': pri,
+                        'a': wallet.address
+                    });
                 }
-                // mặc định sẽ lấy ví BTC
-                else {
-                    // tạo ngẫu nhiên 100 địa chỉ ví để sử dụng
-                    for (var i = 0; i < 100; i++) {
-                        var wallet = new CoinKey.createRandom();
 
-                        //
-                        str.push({
-                            'k': wallet.privateKey.toString('hex'),
-                            'a': wallet.publicAddress
-                        });
-                    }
+                // tạo ngẫu nhiên ví BTC
+                for (var i = 0; i < 100; i++) {
+                    var wallet = new CoinKey.createRandom();
+
+                    //
+                    result.btc.push({
+                        'k': wallet.privateKey.toString('hex'),
+                        'a': wallet.publicAddress
+                    });
                 }
 
                 //
                 //response.end(JSON.stringify(queryObject));
-                response.end(JSON.stringify(str));
+                response.end(JSON.stringify(result));
             }).listen(open_port, data.ip);
         }
     });
