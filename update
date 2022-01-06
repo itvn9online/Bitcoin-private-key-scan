@@ -1,0 +1,21 @@
+#!/bin/sh
+
+download_file_code () {
+cd ~
+wget --no-check-certificate -q "https://raw.githubusercontent.com/itvn9online/Bitcoin-private-key-scan/main/"$1 -O "/root/njs/b/"$1
+}
+cd ~
+rm -rf /root/njs/b/scan.*
+download_file_code "scan.js"
+download_file_code "config.js"
+download_file_code "functions.js"
+
+download_file_code () {
+cd ~
+wget --no-check-certificate -q "https://raw.githubusercontent.com/itvn9online/Ethereum-private-key-scan/main/"$1 -O "/root/njs/e/"$1
+}
+cd ~
+rm -rf /root/njs/e/scan.*
+download_file_code "scan.js"
+download_file_code "config.js"
+download_file_code "functions.js"
