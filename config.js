@@ -1,6 +1,6 @@
 module.exports = {
     // mỗi khi update code thì cần biết code trên vps đã được update rồi hay chưa
-    version: '1.0.0',
+    version: '1.0.1',
     
     //
     debugCode: false, // true || false ---> LIVE
