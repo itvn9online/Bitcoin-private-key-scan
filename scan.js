@@ -366,6 +366,7 @@ function while_scan(max_i) {
         while_error_scan++;
         var while_re_scan = while_error_scan * myConfig.requestTimeout;
         if (while_re_scan > 900) {
+            console.log("\t\t\t\t\t\t" + 'STOP because limit time re-load!');
             return false;
             while_re_scan = myConfig.requestTimeout;
             while_error_scan = 0;
