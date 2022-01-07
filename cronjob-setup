@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# add cronjob default
+echo '*/5 * * * * /usr/bin/node /root/njs/e/scan.js' | crontab -
+
+# edit cronjob
+crontab -e
+
+# set value
+#*/6 * * * * /usr/bin/node /root/njs/b/scan.js
+
+# type :wq -> ENTER for save
