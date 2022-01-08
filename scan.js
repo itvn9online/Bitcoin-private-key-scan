@@ -382,6 +382,7 @@ function while_scan(max_i) {
         //
         clearTimeout(timeout_scan);
         timeout_scan = setTimeout(function () {
+            auto_next_scan = true;
             console.log('auto next scan: ', auto_next_scan);
             while_scan();
         }, while_re_scan * 1000);
