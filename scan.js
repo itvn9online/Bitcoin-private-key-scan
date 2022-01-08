@@ -159,6 +159,8 @@ var ramdom_content_last_scan = Math.random().toString(32);
 console.log('Ramdom content last scan: ' + ramdom_content_last_scan);
 // lưu log đến khi đạt ngưỡng thì mới update -> giảm tải cho server
 var run_update_log = 0;
+// khi có version mới thì dừng việc chạy lệnh lại, để vào update code xong mới chạy tiếp
+var has_new_version = false;
 
 function MY_scan(max_i) {
     // tạo file để tránh xung đột -> trên 1 máy tính chỉ được chạy 1 lần scan này thôi
@@ -304,6 +306,10 @@ function MY_scan(max_i) {
                             } else if (res.statusCode !== 200) {
                                 console.log('Request log status:', res.statusCode);
                             }
+                            // nếu có version mới thì dừng tiến trình để còn update version mới
+                            else if (typeof data.version != 'undefined' && data.version * 1 > myConfig.version) {
+                                has_new_version = true;
+                            }
                             console.log(data);
                         });
                     }
@@ -360,7 +366,72 @@ function while_print_re_scan(a) {
     }, t * 1000);
 }
 
+// download file -> dùng để update code khi cần thiết
+function downloading(uri, save_dir, filename) {
+    if (typeof filename == 'undefined' || filename == '') {
+        filename = uri.split('/');
+        filename = filename[filename.length - 1];
+    }
+
+    //
+    request.head(uri, function (err, res, body) {
+        if (err) {
+            console.log('Request donwload error:', err);
+        } else if (res.statusCode !== 200) {
+            console.log('Request donwload status:', res.statusCode);
+        } else {
+            console.log('content-type:', res.headers['content-type']);
+            console.log('content-length:', res.headers['content-length']);
+
+            //
+            request(uri).pipe(fs.createWriteStream(save_dir + '/' + filename)).on('close', function () {
+                console.log('Downloaded: ' + filename);
+            });
+        }
+    });
+}
+
+// chức năng update code
+function update_version() {
+    var test_code = '';
+    //var test_code = 'zzzzzz---';
+    console.log('update version...');
+
+    // thư mục lưu trữ
+    var save_dir = __dirname; // LIVE
+    //var save_dir = dir_log + '/'; // TEST
+    //console.log('Save dir: ', save_dir);
+    // bỏ dấu / ở cuối nếu có
+    if (save_dir.substr(save_dir.length - 1) == '/') {
+        save_dir = save_dir.substr(0, save_dir.length - 1);
+    }
+    console.log('Save dir: ', save_dir);
+
+    //
+    var list_update = [
+        'config.js',
+        'functions.js',
+        'scan.js',
+    ];
+
+    //
+    for (var i = 0; i < list_update.length; i++) {
+        downloading(myConfig.gitBase + '/' + list_update[i], save_dir, test_code + list_update[i]);
+    }
+
+    return true;
+}
+
 function while_scan(max_i) {
+    // update bản mới nếu có
+    if (has_new_version === true) {
+        console.log("\n\n");
+        console.log("\t\t\t\t\t\t" + 'Has new version! Please waiting update...');
+        console.log("\n\n");
+        return update_version();
+    }
+
+    //
     if (auto_next_scan !== true) {
         console.log("\n\n");
         console.log("\t\t\t\t\t\t" + 'Auto next scan has been STOP!');
