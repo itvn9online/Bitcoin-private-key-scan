@@ -26,7 +26,7 @@ module.exports = {
 
     // số vòng lặp để scan địa chỉ ví
     //maxWhile: 1000 * 1000,
-    maxWhile: 50 * 1000, // do giờ có thể tái khởi động bot tự động lên không cần đặt số cao
+    maxWhile: 100 * 1000, // do giờ có thể tái khởi động bot tự động lên không cần đặt số cao
     // số lượng địa chỉ ví mỗi lần scan -> tùy vào maximum của mỗi API mà điều chỉnh cho hợp lý
     maxAdds: 100,
 

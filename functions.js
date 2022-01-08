@@ -39,6 +39,37 @@ module.exports = {
         //fs.chmodSync(f, 0777);
     },
 
+    countScan: function (d, c) {
+        /*
+         * d: dir
+         * c: content
+         */
+        var count_path = d + '/' + this.currentDate();
+        this.createDir(count_path);
+        count_path += '/count.txt';
+        //console.log(count_path);
+        //return true;
+
+        // có nội dung thì lưu nội dung
+        if (typeof c == 'number' && c != '') {
+            this.myWriteFile(count_path, c.toString());
+            return true;
+        }
+
+        // không có thì kiểm tra và lấy dữ liệu trả về
+        if (fs.existsSync(count_path)) {
+            var a = fs.readFileSync(count_path).toString();
+            a *= 1;
+            //console.log('Count scan (log): ', a);
+
+            //
+            return a;
+        }
+
+        //
+        return 0;
+    },
+
     // trả về ngày hiện tại
     currentDate: function () {
         var a = new Date();
