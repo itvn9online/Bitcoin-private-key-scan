@@ -1,9 +1,9 @@
 module.exports = {
     // mỗi khi update code thì cần biết code trên vps đã được update rồi hay chưa
-    version: 1.03,
+    //version: 1.03,
 
     //
-    debugCode: false, // true || false ---> LIVE
+    //debugCode: false, // true || false ---> LIVE
     //debugCode: true, // TEST
 
     // URL để xác định IP hiện tại đang chạy tool

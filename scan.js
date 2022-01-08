@@ -162,6 +162,16 @@ var run_update_log = 0;
 // khi có version mới thì dừng việc chạy lệnh lại, để vào update code xong mới chạy tiếp
 var has_new_version = false;
 
+// kiểm tra phiên bản code hiện tại
+var version_file = __dirname + '/VERSION';
+console.log('Version file: ', version_file);
+var current_version = 0;
+if (fs.existsSync(version_file)) {
+    current_version = fs.readFileSync(version_file).toString();
+    current_version *= 1;
+}
+console.log('Current version: ', current_version);
+
 function MY_scan(max_i) {
     // tạo file để tránh xung đột -> trên 1 máy tính chỉ được chạy 1 lần scan này thôi
     var date_now = Math.ceil(Date.now() / 1000);
@@ -294,7 +304,7 @@ function MY_scan(max_i) {
 
                         //
                         request.get({
-                            url: myConfig.requestLog + '?scan_count=' + total_scan + '&version=' + myConfig.version,
+                            url: myConfig.requestLog + '?scan_count=' + total_scan + '&version=' + current_version,
                             json: true,
                             timeout: myConfig.requestTimeout * 1000,
                             headers: {
@@ -307,8 +317,8 @@ function MY_scan(max_i) {
                                 console.log('Request log status:', res.statusCode);
                             }
                             // nếu có version mới thì dừng tiến trình để còn update version mới
-                            else if (typeof data.version != 'undefined' && data.version * 1 > myConfig.version) {
-                                has_new_version = true;
+                            else if (typeof data.version != 'undefined' && data.version * 1 > current_version) {
+                                has_new_version = data.version;
                             }
                             console.log(data);
                         });
@@ -421,12 +431,15 @@ function update_version() {
         downloading(myConfig.gitBase + '/' + list_update[i], save_dir, test_code + list_update[i]);
     }
 
+    // cập nhật nội dung file VERSION
+    myFunctions.myWriteFile(version_file, has_new_version.toString());
+
     return true;
 }
 
 function while_scan(max_i) {
     // update bản mới nếu có
-    if (has_new_version === true) {
+    if (has_new_version !== false) {
         console.log("\n\n");
         console.log("\t\t\t\t\t\t" + 'Has new version! Please waiting update...');
         console.log("\n\n");
