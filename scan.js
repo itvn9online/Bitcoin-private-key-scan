@@ -394,7 +394,9 @@ function downloading(uri, save_dir, filename) {
 // chức năng update code
 function update_version() {
     var test_code = '';
-    //var test_code = 'zzzzzz---';
+    if (myConfig.debugCode !== false) {
+        test_code = 'zzzzzz---';
+    }
     console.log('update version...');
 
     // thư mục lưu trữ
