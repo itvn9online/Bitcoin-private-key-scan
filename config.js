@@ -3,7 +3,7 @@ module.exports = {
     //version: 1.03,
 
     //
-    //debugCode: false, // true || false ---> LIVE
+    debugCode: false, // true || false ---> LIVE
     //debugCode: true, // TEST
 
     // URL để xác định IP hiện tại đang chạy tool
