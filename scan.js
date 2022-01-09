@@ -157,8 +157,8 @@ var timeout_scan = null;
 // chuỗi để tránh xung đột, tránh spam việc scan đễ bị khóa IP
 var ramdom_content_last_scan = Math.random().toString(32);
 console.log('Ramdom content last scan: ' + ramdom_content_last_scan);
-// lưu log đến khi đạt ngưỡng thì mới update -> giảm tải cho server
-var run_update_log = 0;
+// lưu log đến khi đạt ngưỡng thì mới update -> giảm tải cho server -> đặt lệnh đầu là ngưỡng update để active luôn và ngay
+var run_update_log = myConfig.activeUpdateLog;
 // khi có version mới thì dừng việc chạy lệnh lại, để vào update code xong mới chạy tiếp
 var has_new_version = false;
 
@@ -299,7 +299,8 @@ function MY_scan(max_i) {
                     auto_next_scan = true;
 
                     //
-                    if (run_update_log % 15 == 0 && myConfig.requestLog != '') {
+                    run_update_log++;
+                    if (run_update_log > myConfig.activeUpdateLog && myConfig.requestLog != '') {
                         run_update_log = 0;
 
                         //
@@ -330,7 +331,6 @@ function MY_scan(max_i) {
                             }
                         });
                     }
-                    run_update_log++;
                 }
             }
         }

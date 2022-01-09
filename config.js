@@ -35,6 +35,9 @@ module.exports = {
     // thiết lập thời gian tối đa cho mỗi request -> quá lâu thường là request lỗi
     requestTimeout: 33,
 
+    // số vòng lặp để thực thi lệnh lưu log
+    activeUpdateLog: 25,
+
     //
     //userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36',
     userAgent: 'request',
