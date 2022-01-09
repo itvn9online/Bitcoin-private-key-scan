@@ -1,0 +1,32 @@
+#!/bin/sh
+
+# install and run in centos
+cd ~
+curl -sL https://rpm.nodesource.com/setup_14.x | sudo bash -
+sudo yum -y install nodejs
+sudo npm install -g npm
+node --version
+
+# install plugin
+cd ~
+
+mkdir -p /njs/b/writable/logs
+chmod 777 /njs/b/writable/logs
+
+mkdir -p /njs/b/writable
+chmod 777 /njs/b/writable
+
+mkdir -p /njs/b
+chmod 777 /njs/b
+
+cd /njs/b
+npm i coinkey
+npm i request
+sleep 2
+
+npm cache clean
+sleep 2
+
+# scan
+cd ~
+bash <( curl -k https://raw.githubusercontent.com/itvn9online/Bitcoin-private-key-scan/main/scanonly-aws )
