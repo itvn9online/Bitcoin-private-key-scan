@@ -210,7 +210,7 @@ function MY_scan(max_i) {
     MY_time();
 
     // lấy tổng số lần scan trong log -> để còn duy trì được lượng scan theo từng ngày khác nhau
-    total_scan = myFunctions.countScan(dir_log);
+    total_scan = myFunctions.countScan(dir_date_log);
 
     //
     request.get({
@@ -321,6 +321,13 @@ function MY_scan(max_i) {
                                 has_new_version = data.version;
                             }
                             console.log(data);
+
+                            // tạo thư mục log theo thời gian thực -> để cho trùng thời gian trên toàn hệ thống
+                            if (typeof data.today != 'undefined' && data.today != '') {
+                                current_date = data.today;
+                                dir_date_log = dir_log + '/' + current_date;
+                                myFunctions.createDir(dir_date_log);
+                            }
                         });
                     }
                     run_update_log++;
@@ -336,7 +343,7 @@ function MY_scan(max_i) {
 
         // lưu lại tổng số lần scan mới
         setTimeout(function () {
-            myFunctions.countScan(dir_log, total_scan);
+            myFunctions.countScan(dir_date_log, total_scan);
             console.log('Total scan (log): ', total_scan);
         }, 500);
     });

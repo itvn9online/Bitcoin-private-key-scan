@@ -44,9 +44,7 @@ module.exports = {
          * d: dir
          * c: content
          */
-        var count_path = d + '/' + this.currentDate();
-        this.createDir(count_path);
-        count_path += '/count.txt';
+        var count_path = d + '/count.txt';
         //console.log(count_path);
         //return true;
 
