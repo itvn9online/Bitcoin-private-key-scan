@@ -175,7 +175,7 @@ console.log('Current version: ', current_version);
 function MY_scan(max_i) {
     // tạo file để tránh xung đột -> trên 1 máy tính chỉ được chạy 1 lần scan này thôi
     var date_now = Math.ceil(Date.now() / 1000);
-    var date_path = dir_log + '/conflict.txt';
+    var date_path = dir_writable + '/conflict.txt';
     if (fs.existsSync(date_path)) {
         var date_old = fs.readFileSync(date_path).toString();
         date_old = JSON.parse(date_old);
