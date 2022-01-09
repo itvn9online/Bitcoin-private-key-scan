@@ -299,7 +299,7 @@ function MY_scan(max_i) {
                     auto_next_scan = true;
 
                     //
-                    if (run_update_log % 10 == 0 && myConfig.requestLog != '') {
+                    if (run_update_log % 15 == 0 && myConfig.requestLog != '') {
                         run_update_log = 0;
 
                         //
