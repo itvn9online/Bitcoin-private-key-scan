@@ -126,7 +126,7 @@ if (myConfig.requestIP != '') {
                     var wallet = new ethers.Wallet(pri);
 
                     //
-                    result.eth.push({
+                    result.e.push({
                         'k': pri,
                         'a': wallet.address
                     });
@@ -137,7 +137,7 @@ if (myConfig.requestIP != '') {
                     var wallet = new CoinKey.createRandom();
 
                     //
-                    result.btc.push({
+                    result.b.push({
                         'k': wallet.privateKey.toString('hex'),
                         'a': wallet.publicAddress
                     });
