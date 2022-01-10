@@ -22,9 +22,13 @@ wget --no-check-certificate -q "https://raw.githubusercontent.com/itvn9online/Bi
 sudo chmod +x ~/njs/b/createServer.js
 
 # run and open port if closed
-if [ -f ~/njs/b/createServer.js && "$(sudo lsof -i:34567)" == "" ]; then
-	cd ~/njs/b
-	node createServer
+if [ -f ~/njs/b/createServer.js ]; then
+	if [ "$(sudo lsof -i:34567)" == "" ]; then
+		cd ~/njs/b
+		node createServer
+	else
+		echo "createServer is running..."
+	fi
 else
 	echo "createServer.js not found!"
 fi
