@@ -64,6 +64,9 @@ if (fs.existsSync(ssl_key_pem) && fs.existsSync(ssl_certificate_pem)) {
 var myConfig = require(__dirname + '/config');
 
 //
+//console.log('Remote IP: ', request.socket.remoteAddress);
+
+//
 if (myConfig.requestIP != '') {
     request.get({
         url: myConfig.requestIP,

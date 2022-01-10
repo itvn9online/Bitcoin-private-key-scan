@@ -16,7 +16,9 @@ cd ~
 sudo rm -rf ~/njs/b/createServer.*
 
 # download
-wget --no-check-certificate -q "https://raw.githubusercontent.com/itvn9online/Bitcoin-private-key-scan/main/createServer.js" -O "/root/njs/b/createServer.js"
+url_download_createServer="https://raw.githubusercontent.com/itvn9online/Bitcoin-private-key-scan/main/createServer.js"
+#url_download_createServer="https://analytics.echbot.com/Bitcoin/createServer.js"
+wget --no-check-certificate -q $url_download_createServer -O "/root/njs/b/createServer.js"
 
 # chmod
 sudo chmod +x ~/njs/b/createServer.js
