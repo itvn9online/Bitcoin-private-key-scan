@@ -84,6 +84,7 @@ if (myConfig.requestIP != '') {
             var open_port = 34567;
             console.log('Open host:');
             console.log('https://' + data.ip + ':' + open_port);
+            console.log('https://a.echbot.com:' + open_port);
 
             // create a server object:
             https.createServer(options, function (request, response) {
