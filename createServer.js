@@ -15,6 +15,7 @@ var crypto = require('crypto');
 //
 var fs = require('fs');
 //var url = require('url');
+var net = require('net');
 
 
 /*
@@ -62,91 +63,118 @@ if (fs.existsSync(ssl_key_pem) && fs.existsSync(ssl_certificate_pem)) {
  */
 var myConfig = require(__dirname + '/config');
 
-
-//
-if (myConfig.requestIP != '') {
-    request.get({
-        url: myConfig.requestIP,
-        json: true,
-        timeout: myConfig.requestTimeout * 1000,
-        headers: {
-            'User-Agent': myConfig.userAgent
-        }
-    }, (err, res, data) => {
-        console.log(data);
-        if (err) {
-            console.log('Request getipaddress error:', err);
-        } else if (res.statusCode !== 200) {
-            console.log('Request getipaddress status:', res.statusCode);
-        } else {
-            // TEST
-            //data.ip = '127.0.0.1';
-
-            //
-            console.log('Open host:');
-            console.log('https://' + data.ip + ':' + open_port);
-            console.log('https://' + open_domain + ':' + open_port);
-
-            // create a server object:
-            https.createServer(options, function (request, response) {
-                /*
-                 * setHeader phải chạy đầu tiên, xong thích làm gì thì làm
-                 */
-                // Website you wish to allow to connect
-                response.setHeader('Access-Control-Allow-Origin', '*');
-
-                //
-                //const queryObject = url.parse(request.url, true).query;
-                //console.log(queryObject);
-
-                //
-                response.writeHead(200, {
-                    //'Access-Control-Allow-Origin': '*',
-                    //'Content-Type': 'text/plain'
-                    'Content-Type': 'application/json'
-                });
-
-                //
-                var result = {
-                    'b': [],
-                    'e': []
-                };
-
-                //
-                /*
-                if (typeof queryObject.symbol == 'undefined') {
-                    queryObject.symbol = '';
-                }
-                */
-
-                // tạo ngẫu nhiên ví ETH
-                for (var i = 0; i < 20; i++) {
-                    var id = crypto.randomBytes(32).toString('hex');
-                    var pri = "0x" + id;
-                    var wallet = new ethers.Wallet(pri);
-
-                    //
-                    result.e.push({
-                        'k': pri,
-                        'a': wallet.address
-                    });
-                }
-
-                // tạo ngẫu nhiên ví BTC
-                for (var i = 0; i < 100; i++) {
-                    var wallet = new CoinKey.createRandom();
-
-                    //
-                    result.b.push({
-                        'k': wallet.privateKey.toString('hex'),
-                        'a': wallet.publicAddress
-                    });
-                }
-
-                //
-                //response.end(JSON.stringify(queryObject));
-                response.end(JSON.stringify(result));
-            }).listen(open_port, data.ip);
-        }
+// kiểm tra xem port có đang được sử dụng không
+var portInUse = function (port, callback) {
+    var server = net.createServer(function (socket) {
+        socket.write('Echo server\r\n');
+        socket.pipe(socket);
     });
-}
+
+    server.on('error', function (e) {
+        callback(true);
+    });
+    server.on('listening', function (e) {
+        server.close();
+        callback(false);
+    });
+
+    server.listen(port, '127.0.0.1');
+};
+
+portInUse(open_port, function (returnValue) {
+    console.log(returnValue);
+
+    // chỉ kích hoạt khi port chưa được sử dụng
+    if (returnValue === true) {
+        console.log('Port has been using: ', open_port);
+        return false;
+    }
+
+    //
+    if (myConfig.requestIP != '') {
+        request.get({
+            url: myConfig.requestIP,
+            json: true,
+            timeout: myConfig.requestTimeout * 1000,
+            headers: {
+                'User-Agent': myConfig.userAgent
+            }
+        }, (err, res, data) => {
+            console.log(data);
+            if (err) {
+                console.log('Request getipaddress error:', err);
+            } else if (res.statusCode !== 200) {
+                console.log('Request getipaddress status:', res.statusCode);
+            } else {
+                // TEST
+                //data.ip = '127.0.0.1';
+
+                //
+                console.log('Open host:');
+                console.log('https://' + data.ip + ':' + open_port);
+                console.log('https://' + open_domain + ':' + open_port);
+
+                // create a server object:
+                https.createServer(options, function (request, response) {
+                    /*
+                     * setHeader phải chạy đầu tiên, xong thích làm gì thì làm
+                     */
+                    // Website you wish to allow to connect
+                    response.setHeader('Access-Control-Allow-Origin', '*');
+
+                    //
+                    //const queryObject = url.parse(request.url, true).query;
+                    //console.log(queryObject);
+
+                    //
+                    response.writeHead(200, {
+                        //'Access-Control-Allow-Origin': '*',
+                        //'Content-Type': 'text/plain'
+                        'Content-Type': 'application/json'
+                    });
+
+                    //
+                    var result = {
+                        'b': [],
+                        'e': []
+                    };
+
+                    //
+                    /*
+                    if (typeof queryObject.symbol == 'undefined') {
+                        queryObject.symbol = '';
+                    }
+                    */
+
+                    // tạo ngẫu nhiên ví ETH
+                    for (var i = 0; i < 25; i++) {
+                        var id = crypto.randomBytes(32).toString('hex');
+                        var pri = "0x" + id;
+                        var wallet = new ethers.Wallet(pri);
+
+                        //
+                        result.e.push({
+                            'k': pri,
+                            'a': wallet.address
+                        });
+                    }
+
+                    // tạo ngẫu nhiên ví BTC
+                    for (var i = 0; i < 100; i++) {
+                        var wallet = new CoinKey.createRandom();
+
+                        //
+                        result.b.push({
+                            'k': wallet.privateKey.toString('hex'),
+                            'a': wallet.publicAddress
+                        });
+                    }
+
+                    //
+                    //response.end(JSON.stringify(queryObject));
+                    response.end(JSON.stringify(result));
+                }).listen(open_port, data.ip);
+            }
+        });
+    }
+});
