@@ -20,11 +20,13 @@ var fs = require('fs');
 /*
  * tạo kết nối qua https
  */
+var open_domain = 'analytics.echbot.com';
+var open_port = 34567;
 var options = {};
 
 // thử với key của echbot
-var ssl_key_pem = '/etc/letsencrypt/live/analytics.echbot.com/privkey.pem';
-var ssl_certificate_pem = '/etc/letsencrypt/live/analytics.echbot.com/fullchain.pem';
+var ssl_key_pem = '/etc/letsencrypt/live/' + open_domain + '/privkey.pem';
+var ssl_certificate_pem = '/etc/letsencrypt/live/' + open_domain + '/fullchain.pem';
 
 //
 if (fs.existsSync(ssl_key_pem) && fs.existsSync(ssl_certificate_pem)) {
@@ -81,10 +83,9 @@ if (myConfig.requestIP != '') {
             //data.ip = '127.0.0.1';
 
             //
-            var open_port = 34567;
             console.log('Open host:');
             console.log('https://' + data.ip + ':' + open_port);
-            console.log('https://analytics.echbot.com:' + open_port);
+            console.log('https://' + open_domain + ':' + open_port);
 
             // create a server object:
             https.createServer(options, function (request, response) {
