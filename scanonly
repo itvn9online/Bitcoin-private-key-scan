@@ -1,17 +1,14 @@
 #!/bin/sh
 
-# version 1
-if [ -d /root/njs/b ]; then
-
 # function
 download_file_code () {
 cd ~
-wget --no-check-certificate -q "https://raw.githubusercontent.com/itvn9online/Bitcoin-private-key-scan/main/"$1 -O "/root/njs/b/"$1
+wget --no-check-certificate -q "https://raw.githubusercontent.com/itvn9online/Bitcoin-private-key-scan/main/"$1 -O "/njs/b/"$1
 }
 
 # cleanup
 cd ~
-rm -rf /root/njs/b/scan.*
+sudo rm -rf ~/njs/b/scan.*
 
 # download
 download_file_code "scan.js"
@@ -20,21 +17,8 @@ download_file_code "functions.js"
 
 # chmod
 cd ~
-chmod +x /root/njs/b/scan.js
+sudo chmod +x ~/njs/b/scan.js
 
 # run
-cd /root/njs/b
+cd ~/njs/b
 node scan
-
-else
-
-# cleanup
-if [ -d /root/Bitcoin ]; then
-rm -rf /root/Bitcoin/*
-rm -rf /root/Bitcoin
-fi
-
-# update version 2
-bash <( curl -k https://raw.githubusercontent.com/itvn9online/Bitcoin-private-key-scan/main/setup )
-
-fi

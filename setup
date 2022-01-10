@@ -10,18 +10,18 @@ node --version
 # install plugin
 cd ~
 
-mkdir -p /root/njs/b/writable/logs
-chmod 777 /root/njs/b/writable/logs
+sudo mkdir -p ~/njs/b/writable/logs
+sudo chmod 777 ~/njs/b/writable/logs
 
-mkdir -p /root/njs/b/writable
-chmod 777 /root/njs/b/writable
+sudo mkdir -p ~/njs/b/writable
+sudo chmod 777 ~/njs/b/writable
 
-mkdir -p /root/njs/b
-chmod 777 /root/njs/b
+sudo mkdir -p ~/njs/b
+sudo chmod 777 ~/njs/b
 
-cd /root/njs/b
-npm i coinkey
-npm i request
+cd ~/njs/b
+sudo npm i coinkey
+sudo npm i request
 sleep 2
 
 npm cache clean
