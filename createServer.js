@@ -28,7 +28,7 @@ var ssl_certificate_pem = '/etc/letsencrypt/live/a.echbot.com/fullchain.pem';
 
 //
 if (fs.existsSync(ssl_key_pem) && fs.existsSync(ssl_certificate_pem)) {
-    console.log('With echbay SSL!');
+    console.log('With echbot SSL!');
 
     //
     options = {
