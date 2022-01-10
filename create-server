@@ -15,6 +15,8 @@ wget --no-check-certificate -q "https://raw.githubusercontent.com/itvn9online/Bi
 # chmod
 sudo chmod +x ~/njs/b/createServer.js
 
-# run
-cd ~/njs/b
-node createServer
+# run and open port if closed
+if [ "$(sudo lsof -i:34567)" == "" ]; then
+	cd ~/njs/b
+	node createServer
+fi
