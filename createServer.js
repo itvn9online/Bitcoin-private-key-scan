@@ -108,8 +108,8 @@ if (myConfig.requestIP != '') {
 
                 //
                 var result = {
-                    'btc': [],
-                    'eth': []
+                    'b': [],
+                    'e': []
                 };
 
                 //
