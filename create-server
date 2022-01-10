@@ -30,5 +30,5 @@ if [ -f ~/njs/b/createServer.js ]; then
 		echo "createServer is running..."
 	fi
 else
-	echo "createServer.js not found!"
+	echo "createServer js not found!"
 fi
