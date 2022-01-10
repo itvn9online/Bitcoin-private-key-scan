@@ -118,3 +118,7 @@ node_modules/*
 writable/*
 !writable/README.*
 #*.json
+
+## dreamweaver auto push
+/_notes/
+dwsync.xml
