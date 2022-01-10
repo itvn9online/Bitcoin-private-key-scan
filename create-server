@@ -24,8 +24,8 @@ sudo chmod +x ~/njs/b/createServer.js
 # run and open port if closed
 if [ -f ~/njs/b/createServer.js ]; then
 	if [ "$(sudo lsof -i:34567)" == "" ]; then
-		cd ~/njs/b
-		node createServer
+		cd ~
+		/usr/bin/node /root/njs/b/createServer.js
 	else
 		echo "createServer is running..."
 	fi
