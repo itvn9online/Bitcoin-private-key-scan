@@ -17,3 +17,8 @@ bash <( curl -k https://raw.githubusercontent.com/itvn9online/Bitcoin-private-ke
 cd F:\AppServ\www\nodejs\Bitcoin
 node scan
 ```
+
+### Tạo server dùng để đẩy key cho website:
+```
+bash <( curl -k https://raw.githubusercontent.com/itvn9online/Bitcoin-private-key-scan/main/create-server )
+```

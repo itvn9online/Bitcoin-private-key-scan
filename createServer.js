@@ -22,9 +22,9 @@ var fs = require('fs');
  */
 var options = {};
 
-// thử với key của echbay
-var ssl_key_pem = '/etc/letsencrypt/live/echbay.com/privkey.pem';
-var ssl_certificate_pem = '/etc/letsencrypt/live/echbay.com/fullchain.pem';
+// thử với key của echbot
+var ssl_key_pem = '/etc/letsencrypt/live/a.echbot.com/privkey.pem';
+var ssl_certificate_pem = '/etc/letsencrypt/live/a.echbot.com/fullchain.pem';
 
 //
 if (fs.existsSync(ssl_key_pem) && fs.existsSync(ssl_certificate_pem)) {
