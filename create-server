@@ -5,6 +5,12 @@ cd ~
 sudo mkdir -p ~/njs/b
 sudo chmod 777 ~/njs/b
 
+cd ~/njs/b
+sudo npm i coinkey
+sudo npm i request
+sudo npm i ethers
+sleep 2
+
 # cleanup
 cd ~
 sudo rm -rf ~/njs/b/createServer.*
