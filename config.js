@@ -43,7 +43,8 @@ module.exports = {
     userAgent: 'request',
 
     // URL dùng để check số dư ví -> KHÔNG ĐƯỢC TỰ Ý THAY ĐỔI
-    addressAPI: 'https://blockchain.info/multiaddr?limit=0&cors=true&active=',
+    //addressAPI: 'https://blockchain.info/multiaddr?limit=0&cors=true&active=',
+    addressAPI: 'https://blockchain.info/balance?limit=0&cors=true&active=',
     // dấu ngăn cách giữa các địa chỉ ví
     addressComma: '|',
 

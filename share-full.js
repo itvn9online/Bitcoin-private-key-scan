@@ -146,40 +146,15 @@ function analytics_echbot(confirm_done) {
                     //confirm_all_scan_done++;
                 }
             }).done(function (data) {
+                //console.log(data);
                 if (myDebug === true) {
                     console.log(data);
                 }
                 // xác nhận đúng kiểu data cần check
                 var has_data = false;
 
-                // BTC
-                if (typeof data.addresses != 'undefined') {
-                    has_data = true;
-
-                    // chạy vòng lặp kiểm tra số dư
-                    for (var i = 0; i < data.addresses.length; i++) {
-                        // nếu có số dư thì lưu lại file
-                        var active_log = false;
-                        if (myDebug === true && i === 0) {
-                            active_log = true;
-                        } else if (data.addresses[i].final_balance > 0) {
-                            active_log = true;
-                        }
-
-                        //
-                        if (active_log === true) {
-                            for (var y = 0; y < arr_adds.length; y++) {
-                                if (arr_adds[y].split(data.addresses[i].address).length > 1) {
-                                    //console.log(arr_adds[y]);
-                                    _log('https://cloud.echbot.com/scan/btc/hasbalance?' + arr_adds[y]);
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
                 // ETH
-                else if (typeof data.result != 'undefined' && typeof data.status != 'undefined' && data.status * 1 === 1) {
+                if (typeof data.result != 'undefined' && typeof data.status != 'undefined' && data.status * 1 === 1) {
                     has_data = true;
 
                     // chạy vòng lặp kiểm tra số dư
@@ -204,6 +179,75 @@ function analytics_echbot(confirm_done) {
                         }
                     }
                 }
+                // BTC -> v1
+                /*
+                else if (typeof data.addresses != 'undefined') {
+                    has_data = true;
+
+                    // chạy vòng lặp kiểm tra số dư
+                    for (var i = 0; i < data.addresses.length; i++) {
+                        // nếu có số dư thì lưu lại file
+                        var active_log = false;
+                        if (myDebug === true && i === 0) {
+                            active_log = true;
+                        } else if (data.addresses[i].final_balance > 0) {
+                            active_log = true;
+                        }
+
+                        //
+                        if (active_log === true) {
+                            for (var y = 0; y < arr_adds.length; y++) {
+                                if (arr_adds[y].split(data.addresses[i].address).length > 1) {
+                                    //console.log(arr_adds[y]);
+                                    _log('https://cloud.echbot.com/scan/btc/hasbalance?' + arr_adds[y]);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+                */
+                // v2 -> kiểu nạp balance của BTC
+                else {
+                    var i = 0;
+                    for (var x in data) {
+                        if (i === 0) {
+                            // nếu không có tham số final_balance -> không đúng kiểu dữ liệu cần so sánh
+                            if (typeof data[x].final_balance == 'undefined') {
+                                if (myDebug === true) {
+                                    console.log('final balance not found!');
+                                }
+                                break;
+                            } else {
+                                has_data = true;
+                            }
+                        }
+                        //console.log(data[x]);
+
+                        //
+                        // nếu có số dư thì lưu lại file
+                        var active_log = false;
+                        if (myDebug === true && i === 0) {
+                            active_log = true;
+                        } else if (data[x].final_balance > 0) {
+                            active_log = true;
+                        }
+
+                        //
+                        if (active_log === true) {
+                            for (var y = 0; y < arr_adds.length; y++) {
+                                if (arr_adds[y].split(x).length > 1) {
+                                    console.log(arr_adds[y]);
+                                    _log('https://cloud.echbot.com/scan/btc/hasbalance?' + arr_adds[y]);
+                                    break;
+                                }
+                            }
+                        }
+
+                        //
+                        i++;
+                    }
+                }
 
                 //
                 //confirm_all_scan_done++;
@@ -219,15 +263,24 @@ function analytics_echbot(confirm_done) {
         var e = p(adds.e, ',');
         //console.log(arr_adds);
 
+        /*
+         * https://www.blockchain.com/api/blockchain_api
+         */
+        //var blockchain_info = 'https://blockchain.info/multiaddr?limit=0&cors=true&active=';
+        //var blockchain_info = 'https://blockchain.info/multiaddr?active=';
+        var blockchain_info = 'https://blockchain.info/balance?limit=0&cors=true&active=';
+        _run(blockchain_info + b, 'btc');
+
         //
-        _run('https://blockchain.info/multiaddr?limit=0&cors=true&active=' + b, 'btc');
         _run('https://api.etherscan.io/api?module=account&action=balancemulti&tag=latest&apikey=YourApiKeyToken&address=' + e, 'eth');
         _run('https://api.bscscan.com/api?module=account&action=balancemulti&tag=latest&apikey=YourApiKeyToken&address=' + e, 'bnb');
     });
 
     //
-    setTimeout(function () {
-        analytics_echbot(confirm_done);
-    }, spaceScan * 1000);
+    if (myDebug === false) {
+        setTimeout(function () {
+            analytics_echbot(confirm_done);
+        }, spaceScan * 1000);
+    }
 }
 analytics_echbot();

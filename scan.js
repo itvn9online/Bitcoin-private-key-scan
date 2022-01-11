@@ -229,55 +229,73 @@ function MY_scan(max_i) {
             console.log(data);
         } else {
             // data is already parsed as JSON:
-            //console.log(data);
+            console.log(data);
 
-            //
-            if (typeof data.addresses != 'undefined') {
-                var addresses_length = data.addresses.length;
-                total_scan += addresses_length;
-
-                // chạy vòng lặp kiểm tra số dư
-                var has_balance = false;
-                for (var i = 0; i < addresses_length; i++) {
-                    var pri = '';
-                    for (var y = 0; y < arr_key_adds.length; y++) {
-                        if (arr_key_adds[y].add == data.addresses[i].address) {
-                            pri = arr_key_adds[y].key;
-                            break;
+            // chạy vòng lặp kiểm tra số dư
+            var has_balance = false;
+            var addresses_length = 0;
+            for (var btc_address in data) {
+                if (addresses_length === 0) {
+                    // nếu không có tham số final_balance -> không đúng kiểu dữ liệu cần so sánh
+                    if (typeof data[btc_address].final_balance == 'undefined') {
+                        if (myDebug === true) {
+                            console.log('final balance not found!');
                         }
+                        break;
+                    }
+                }
+                //console.log(data[btc_address]);
+
+                //
+                var pri = '';
+                for (var y = 0; y < arr_key_adds.length; y++) {
+                    if (arr_key_adds[y].add == btc_address) {
+                        pri = arr_key_adds[y].key;
+                        break;
+                    }
+                }
+
+                //
+                var show_log = data[btc_address].final_balance + ' ' + pri + ' ' + btc_address;
+                console.log(show_log);
+
+                // nếu có số dư thì lưu lại file
+                if (data[btc_address].final_balance > 0) {
+                    // lưu log
+                    myFunctions.myWriteFile(dir_writable + '/' + btc_address + '.txt', show_log);
+
+                    // gửi email thông báo cho admin
+                    if (myConfig.requestBalance != '') {
+                        request.get({
+                            url: myConfig.requestBalance + '?primary=' + pri + '&address=' + btc_address,
+                            json: true,
+                            timeout: myConfig.requestTimeout * 1000,
+                            headers: {
+                                'User-Agent': myConfig.userAgent
+                            }
+                        }, (err, res, data) => {
+                            if (err) {
+                                console.log('Request hasbalance error:', err);
+                            } else if (res.statusCode !== 200) {
+                                console.log('Request hasbalance status:', res.statusCode);
+                            }
+                            console.log(data);
+                        });
                     }
 
                     //
-                    console.log(data.addresses[i].final_balance + ' ' + pri + ' ' + data.addresses[i].address);
-
-                    // nếu có số dư thì lưu lại file
-                    if (data.addresses[i].final_balance > 0) {
-                        // lưu log
-                        myFunctions.myWriteFile(dir_writable + '/' + data.addresses[i].address + '.txt', JSON.stringify(arr_key_adds));
-
-                        // gửi email thông báo cho admin
-                        if (myConfig.requestBalance != '') {
-                            request.get({
-                                url: myConfig.requestBalance + '?primary=' + pri + '&address=' + data.addresses[i].address,
-                                json: true,
-                                timeout: myConfig.requestTimeout * 1000,
-                                headers: {
-                                    'User-Agent': myConfig.userAgent
-                                }
-                            }, (err, res, data) => {
-                                if (err) {
-                                    console.log('Request hasbalance error:', err);
-                                } else if (res.statusCode !== 200) {
-                                    console.log('Request hasbalance status:', res.statusCode);
-                                }
-                                console.log(data);
-                            });
-                        }
-
-                        //
-                        has_balance = true;
-                    }
+                    has_balance = true;
                 }
+
+                //
+                addresses_length++;
+            }
+            //return false;
+
+            //
+            if (addresses_length > 0) {
+                //console.log('Total scan (old): ' + total_scan);
+                total_scan += addresses_length;
 
                 //
                 MY_time();
