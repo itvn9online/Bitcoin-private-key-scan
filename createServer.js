@@ -59,12 +59,45 @@ if (fs.existsSync(ssl_key_pem) && fs.existsSync(ssl_certificate_pem)) {
 
 
 /*
+ * function
+ */
+var myFunctions = require(__dirname + '/functions');
+
+
+/*
  * nạp config
  */
 var myConfig = require(__dirname + '/config');
 
 //
 //console.log('Remote IP: ', request.socket.remoteAddress);
+
+
+// tạo thư mục lưu trữ
+var dir_writable = __dirname + myConfig.dirWritable;
+console.log(dir_writable);
+myFunctions.createDir(dir_writable);
+
+// thư mục log
+var dir_log = dir_writable + '/logs';
+myFunctions.createDir(dir_log);
+
+// log theo ngày
+var current_date = myFunctions.currentDate();
+console.log('Current date: ', current_date);
+
+//
+var dir_date_log = dir_log + '/' + current_date;
+myFunctions.createDir(dir_date_log);
+
+//
+var total_request = 0;
+var request_path = dir_date_log + '/total_request.txt';
+if (fs.existsSync(request_path)) {
+    total_request = fs.readFileSync(request_path).toString();
+    total_request *= 1;
+}
+
 
 //
 if (myConfig.requestIP != '') {
@@ -107,6 +140,33 @@ if (myConfig.requestIP != '') {
                     //'Access-Control-Allow-Origin': '*',
                     //'Content-Type': 'text/plain'
                     'Content-Type': 'application/json'
+                });
+
+                //
+                var check_date = myFunctions.currentDate();
+                if (check_date != current_date) {
+                    current_date = check_date;
+
+                    //
+                    dir_date_log = dir_log + '/' + current_date;
+                    myFunctions.createDir(dir_date_log);
+
+                    //
+                    total_request = 0;
+                    request_path = dir_date_log + '/total_request.txt';
+                    if (fs.existsSync(request_path)) {
+                        total_request = fs.readFileSync(request_path).toString();
+                        total_request *= 1;
+                    }
+                }
+
+                //
+                total_request++;
+                //myFunctions.myWriteFile(request_path, total_request.toString());
+                // dùng hàm này để không in log ra
+                fs.writeFile(request_path, total_request.toString(), function (err) {
+                    if (err) throw err;
+                    //console.log('Saved (write)! ' + f);
                 });
 
                 //

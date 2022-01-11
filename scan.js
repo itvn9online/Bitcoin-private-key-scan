@@ -84,7 +84,7 @@ myFunctions.createDir(dir_log);
 
 // log theo ngày
 var current_date = myFunctions.currentDate();
-console.log('Current date: ' + current_date);
+console.log('Current date: ', current_date);
 
 //
 var dir_date_log = dir_log + '/' + current_date;
