@@ -5,7 +5,8 @@
 
 //
 //var http = require('http');
-var https = require('https');
+//var https = require('https');
+var http2 = require('http2');
 var request = require('request');
 // tạo ví BTC
 var CoinKey = require('coinkey');
@@ -122,8 +123,8 @@ if (myConfig.requestIP != '') {
             console.log('https://' + data.ip + ':' + open_port);
             console.log('https://' + open_domain + ':' + open_port);
 
-            // create a server object:
-            https.createServer(options, function (request, response) {
+            // create a server object -> sử dụng http2
+            http2.createSecureServer(options, function (request, response) {
                 /*
                  * setHeader phải chạy đầu tiên, xong thích làm gì thì làm
                  */
