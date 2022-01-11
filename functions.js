@@ -74,6 +74,18 @@ module.exports = {
         return a.toISOString().split('T')[0];
     },
 
+    // tạo log theo năm/tháng/ngay
+    logWithDate: function (dir_log, current_date) {
+        current_date = current_date.split('-');
+        for (var i = 0; i < current_date.length; i++) {
+            dir_log += '/' + current_date[i];
+            this.createDir(dir_log);
+        }
+        
+        //
+        return dir_log;
+    },
+
     // lười viết dấu , ở cuối nên làm cái author cho nó tiện
     authorEmail: 'itvn9online@gmail.com'
 };

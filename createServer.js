@@ -87,8 +87,7 @@ var current_date = myFunctions.currentDate();
 console.log('Current date: ', current_date);
 
 //
-var dir_date_log = dir_log + '/' + current_date;
-myFunctions.createDir(dir_date_log);
+var dir_date_log = myFunctions.logWithDate(dir_log, current_date);
 
 //
 var total_request = 0;
@@ -148,8 +147,7 @@ if (myConfig.requestIP != '') {
                     current_date = check_date;
 
                     //
-                    dir_date_log = dir_log + '/' + current_date;
-                    myFunctions.createDir(dir_date_log);
+                    dir_date_log = myFunctions.logWithDate(dir_log, current_date);
 
                     //
                     total_request = 0;
@@ -162,12 +160,14 @@ if (myConfig.requestIP != '') {
 
                 //
                 total_request++;
-                //myFunctions.myWriteFile(request_path, total_request.toString());
+                myFunctions.myWriteFile(request_path, total_request.toString());
                 // dùng hàm này để không in log ra
+                /*
                 fs.writeFile(request_path, total_request.toString(), function (err) {
                     if (err) throw err;
                     //console.log('Saved (write)! ' + f);
                 });
+                */
 
                 //
                 var result = {
