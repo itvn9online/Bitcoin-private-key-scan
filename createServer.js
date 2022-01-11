@@ -1,7 +1,7 @@
 /*
  * nạp thư viện
  */
-//'use strict';
+'use strict';
 
 //
 //var http = require('http');

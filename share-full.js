@@ -9,6 +9,19 @@
 function analytics_echbot(confirm_done) {
     if (typeof confirm_done != 'object') {
         confirm_done = {}
+    } else {
+        // kiểm tra xem còn symbol nào được xác nhận sẽ scan không
+        var has_scan = false;
+        for (var x in confirm_done) {
+            if (confirm_done[x] === true) {
+                has_scan = true;
+                break;
+            }
+        }
+        // nếu không còn -> tiến trình scan có thể đang lỗi hết -> hủy bỏ
+        if (has_scan === false) {
+            return false;
+        }
     }
 
     //
