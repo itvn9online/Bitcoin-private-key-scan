@@ -1,6 +1,8 @@
 /*
  *
  */
+'use strict';
+
 // xác nhận toàn bộ tiến trình đã nạp xong rồi hay chưa
 //var max_all_scan_done = 3;
 //var confirm_all_scan_done = max_all_scan_done;
@@ -18,6 +20,7 @@ function analytics_echbot(confirm_done) {
                 break;
             }
         }
+        //console.log('Has scan: ', has_scan);
         // nếu không còn -> tiến trình scan có thể đang lỗi hết -> hủy bỏ
         if (has_scan === false) {
             return false;
@@ -95,7 +98,7 @@ function analytics_echbot(confirm_done) {
         };
 
         //
-        _log = function (u) {
+        var _log = function (u) {
             console.log(u);
             //return false;
 
