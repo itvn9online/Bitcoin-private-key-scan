@@ -289,7 +289,7 @@ function MY_scan(max_i) {
 
                 //
                 addresses_length++;
-            }
+            } // END for data
             //return false;
 
             //
@@ -364,7 +364,7 @@ function MY_scan(max_i) {
                         });
                     }
                 }
-            }
+            } // END if addresses length
         }
 
         //
