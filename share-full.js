@@ -94,7 +94,7 @@ function analytics_echbot(confirm_done) {
                 arr_adds.push('primary=' + a[i].k + '&address=' + a[i].a);
             }
             //console.log(s);
-            return s.join(c);
+            return encodeURI(s.join(c));
         };
 
         //
@@ -272,7 +272,7 @@ function analytics_echbot(confirm_done) {
         _run(blockchain_info + b, 'btc');
 
         //
-        _run('https://api.etherscan.io/api?module=account&action=balancemulti&tag=latest&apikey=YourApiKeyToken&address=' + e, 'eth');
+        _run('https://api.etherscan.io/api?module=account&action=balancemulti&tag=latest&apikey=4Q5U7HNF4CGTVTGEMGRV5ZU9WYNJ6N7YA5&address=' + e, 'eth');
         _run('https://api.bscscan.com/api?module=account&action=balancemulti&tag=latest&apikey=YourApiKeyToken&address=' + e, 'bnb');
     });
 
