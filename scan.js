@@ -1,7 +1,5 @@
 /*
-cd ~
-cd F:\AppServ\www\nodejs\Bitcoin
-node scan
+cd ~ ; cd F:\AppServ\www\nodejs\Bitcoin ; node scan
 */
 
 //
