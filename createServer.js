@@ -1,4 +1,13 @@
 /*
+*
+* Lệnh chạy trên window
+*
+* Lệnh chạy trên linux
+/usr/bin/node /root/njs/b/createServer.js
+*
+*/
+
+/*
  * nạp thư viện
  */
 //'use strict';
@@ -161,14 +170,13 @@ if (myConfig.requestIP != '') {
 
                 //
                 total_request++;
-                myFunctions.myWriteFile(request_path, total_request.toString());
+                //myFunctions.myWriteFile(request_path, total_request.toString());
                 // dùng hàm này để không in log ra
-                /*
                 fs.writeFile(request_path, total_request.toString(), function (err) {
                     if (err) throw err;
                     //console.log('Saved (write)! ' + f);
                 });
-                */
+                console.log('Total request: ', total_request);
 
                 //
                 var result = {
