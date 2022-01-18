@@ -108,7 +108,19 @@ if (fs.existsSync(request_path)) {
 }
 
 
-//
+/*
+ * lấy server IP trong log
+ */
+var current_server_ip = '';
+var server_ip_path = __dirname + '/server_ip.txt';
+if (fs.existsSync(server_ip_path)) {
+    current_server_ip = fs.readFileSync(server_ip_path).toString();
+    console.log('Server IP (log): ', current_server_ip);
+}
+
+/*
+ * chạy lại lệnh cập nhật server IP
+ */
 if (myConfig.requestIP != '') {
     request.get({
         url: myConfig.requestIP,
@@ -124,101 +136,108 @@ if (myConfig.requestIP != '') {
         } else if (res.statusCode !== 200) {
             console.log('Request getipaddress status:', res.statusCode);
         } else {
-            // TEST
-            //data.ip = '127.0.0.1';
+            current_server_ip = data.ip;
 
             //
-            console.log('Open host:');
-            console.log('https://' + data.ip + ':' + open_port);
-            console.log('https://' + open_domain + ':' + open_port);
-
-            // create a server object -> sử dụng http2
-            http2.createSecureServer(options, function (request, response) {
-                /*
-                 * setHeader phải chạy đầu tiên, xong thích làm gì thì làm
-                 */
-                // Website you wish to allow to connect
-                response.setHeader('Access-Control-Allow-Origin', '*');
-
-                //
-                //const queryObject = url.parse(request.url, true).query;
-                //console.log(queryObject);
-
-                //
-                response.writeHead(200, {
-                    //'Access-Control-Allow-Origin': '*',
-                    //'Content-Type': 'text/plain'
-                    'Content-Type': 'application/json'
-                });
-
-                //
-                var check_date = myFunctions.currentDate();
-                if (check_date != current_date) {
-                    current_date = check_date;
-
-                    //
-                    dir_date_log = myFunctions.logWithDate(dir_log, current_date);
-
-                    //
-                    total_request = 0;
-                    request_path = dir_date_log + '/total_request.txt';
-                    if (fs.existsSync(request_path)) {
-                        total_request = fs.readFileSync(request_path).toString();
-                        total_request *= 1;
-                    }
-                }
-
-                //
-                total_request++;
-                //myFunctions.myWriteFile(request_path, total_request.toString());
-                // dùng hàm này để không in log ra
-                fs.writeFile(request_path, total_request.toString(), function (err) {
-                    if (err) throw err;
-                    //console.log('Saved (write)! ' + f);
-                });
-                console.log('Total request: ', total_request);
-
-                //
-                var result = {
-                    'b': [],
-                    'e': []
-                };
-
-                //
-                /*
-                if (typeof queryObject.symbol == 'undefined') {
-                    queryObject.symbol = '';
-                }
-                */
-
-                // tạo ngẫu nhiên ví ETH
-                for (var i = 0; i < 25; i++) {
-                    var id = crypto.randomBytes(32).toString('hex');
-                    var pri = "0x" + id;
-                    var wallet = new ethers.Wallet(pri);
-
-                    //
-                    result.e.push({
-                        'k': pri,
-                        'a': wallet.address
-                    });
-                }
-
-                // tạo ngẫu nhiên ví BTC
-                for (var i = 0; i < 100; i++) {
-                    var wallet = new CoinKey.createRandom();
-
-                    //
-                    result.b.push({
-                        'k': wallet.privateKey.toString('hex'),
-                        'a': wallet.publicAddress
-                    });
-                }
-
-                //
-                //response.end(JSON.stringify(queryObject));
-                response.end(JSON.stringify(result));
-            }).listen(open_port, data.ip);
+            myFunctions.myWriteFile(server_ip_path, current_server_ip);
         }
     });
 }
+
+
+//
+// TEST
+//current_server_ip = '127.0.0.1';
+
+//
+console.log('Open host:');
+console.log('https://' + current_server_ip + ':' + open_port);
+console.log('https://' + open_domain + ':' + open_port);
+
+// create a server object -> sử dụng http2
+http2.createSecureServer(options, function (request, response) {
+    /*
+     * setHeader phải chạy đầu tiên, xong thích làm gì thì làm
+     */
+    // Website you wish to allow to connect
+    response.setHeader('Access-Control-Allow-Origin', '*');
+
+    //
+    //const queryObject = url.parse(request.url, true).query;
+    //console.log(queryObject);
+
+    //
+    response.writeHead(200, {
+        //'Access-Control-Allow-Origin': '*',
+        //'Content-Type': 'text/plain'
+        'Content-Type': 'application/json'
+    });
+
+    //
+    var check_date = myFunctions.currentDate();
+    if (check_date != current_date) {
+        current_date = check_date;
+
+        //
+        dir_date_log = myFunctions.logWithDate(dir_log, current_date);
+
+        //
+        total_request = 0;
+        request_path = dir_date_log + '/total_request.txt';
+        if (fs.existsSync(request_path)) {
+            total_request = fs.readFileSync(request_path).toString();
+            total_request *= 1;
+        }
+    }
+
+    //
+    total_request++;
+    //myFunctions.myWriteFile(request_path, total_request.toString());
+    // dùng hàm này để không in log ra
+    fs.writeFile(request_path, total_request.toString(), function (err) {
+        if (err) throw err;
+        //console.log('Saved (write)! ' + f);
+    });
+    console.log('Total request: ', total_request);
+
+    //
+    var result = {
+        'b': [],
+        'e': []
+    };
+
+    //
+    /*
+    if (typeof queryObject.symbol == 'undefined') {
+        queryObject.symbol = '';
+    }
+    */
+
+    // tạo ngẫu nhiên ví ETH
+    for (var i = 0; i < 25; i++) {
+        var id = crypto.randomBytes(32).toString('hex');
+        var pri = "0x" + id;
+        var wallet = new ethers.Wallet(pri);
+
+        //
+        result.e.push({
+            'k': pri,
+            'a': wallet.address
+        });
+    }
+
+    // tạo ngẫu nhiên ví BTC
+    for (var i = 0; i < 100; i++) {
+        var wallet = new CoinKey.createRandom();
+
+        //
+        result.b.push({
+            'k': wallet.privateKey.toString('hex'),
+            'a': wallet.publicAddress
+        });
+    }
+
+    //
+    //response.end(JSON.stringify(queryObject));
+    response.end(JSON.stringify(result));
+}).listen(open_port, current_server_ip);
