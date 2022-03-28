@@ -33,7 +33,7 @@ var fs = require('fs');
  */
 var open_domain = 'analytics.echbot.com';
 var open_port = 34567;
-var options = {};
+var options = null;
 
 // thử với key của echbot
 var ssl_key_pem = '/etc/letsencrypt/live/' + open_domain + '/privkey.pem';

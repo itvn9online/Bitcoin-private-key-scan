@@ -3,7 +3,7 @@
 # install and run in centos
 #pkill node
 cd ~
-curl -sL https://rpm.nodesource.com/setup_14.x | sudo bash -
+curl -sL https://rpm.nodesource.com/setup_16.x | sudo bash -
 sudo yum -y install nodejs
 sudo npm install -g npm@8.3.0
 node --version
