@@ -11,6 +11,7 @@ cd ~
 sudo rm -rf ~/njs/b/scan.*
 
 # download
+sudo yum -y install wget
 download_file_code "scan.js"
 download_file_code "config.js"
 download_file_code "functions.js"
