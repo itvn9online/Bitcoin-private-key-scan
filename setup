@@ -1,5 +1,10 @@
 #!/bin/sh
 
+#
+yum -y update
+yum -y upgrade
+yum -y install epel-release
+
 # install and run in centos
 #pkill node
 cd ~
