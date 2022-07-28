@@ -10,7 +10,8 @@ yum -y install epel-release
 cd ~
 curl -sL https://rpm.nodesource.com/setup_14.x | sudo bash -
 sudo yum -y install nodejs
-sudo npm install -g npm@8.12.1
+#sudo npm install -g npm@8.15.1
+sudo npm install -g npm
 node --version
 npm -version
 
