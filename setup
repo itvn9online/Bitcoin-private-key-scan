@@ -7,17 +7,23 @@ yum -y install epel-release
 
 # remove and run in centos
 # https://github.com/nodesource/distributions
-#pkill node
-#yum -y remove nodejs
-#rm -rf /etc/yum.repos.d/nodesource*.repo
-#yum clean all
+my_remove_nodejs(){
+pkill node
+yum -y remove nodejs
+rm -rf /etc/yum.repos.d/nodesource*.repo
+sudo rm -rf /usr/local/bin/npm /usr/local/share/man/man1/node* /usr/local/lib/dtrace/node.d ~/.npm ~/.node-gyp /opt/local/bin/node /opt/local/include/node /opt/local/lib/node_modules 
+sudo rm -rf /usr/local/lib/node*
+sudo rm -rf /usr/local/include/node*
+sudo rm -rf /usr/local/bin/node
+yum clean all
+}
 
 # install and run in centos
 cd ~
 curl -fsSL https://rpm.nodesource.com/setup_14.x | sudo bash -
 #curl -fsSL https://rpm.nodesource.com/setup_16.x | sudo bash -
 #curl -fsSL https://rpm.nodesource.com/setup_18.x | sudo bash -
-#sudo yum -y install nodejs
+sudo yum -y install nodejs
 #sudo npm install -g npm@8.15.1
 sudo npm install -g npm
 node --version
