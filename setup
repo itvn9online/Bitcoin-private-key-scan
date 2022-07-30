@@ -15,7 +15,8 @@ sudo rm -rf /usr/local/bin/npm /usr/local/share/man/man1/node* /usr/local/lib/dt
 sudo rm -rf /usr/local/lib/node*
 sudo rm -rf /usr/local/include/node*
 sudo rm -rf /usr/local/bin/node
-yum clean all
+yum clean all --verbose
+yum clean all && yum update
 }
 
 # install and run in centos
@@ -24,6 +25,7 @@ curl -fsSL https://rpm.nodesource.com/setup_14.x | sudo bash -
 #curl -fsSL https://rpm.nodesource.com/setup_16.x | sudo bash -
 #curl -fsSL https://rpm.nodesource.com/setup_18.x | sudo bash -
 sudo yum -y install nodejs
+#sudo yum -y install nodejs --skip-broken
 #sudo npm install -g npm@8.15.1
 sudo npm install -g npm
 node --version
